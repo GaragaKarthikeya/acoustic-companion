@@ -6,7 +6,34 @@ This document details the mathematical models, delay line filters, dynamic strin
 
 ---
 
-## 1. Physical Waveguide Principles
+## 1. Capo Frequency Shift & Tuning Calculations
+
+Acoustic Companion is tuned specifically for Ed Sheeran's *"Photograph"*, which is played on the guitar with a **Capo on the 2nd Fret**. 
+To ensure all dynamically plucked chords and strings match the correct musical scale, the system shifts standard open string pitches up by two semitones:
+
+| String Index | Standard Note | Capo 2 Note | Capo 2 Base Frequency ($f_{\text{capo}}$) |
+|:---:|:---:|:---:|:---:|
+| **6 (Low)** | E2 (82.41 Hz) | **F#2** | **92.50 Hz** |
+| **5** | A2 (110.00 Hz) | **B2** | **123.47 Hz** |
+| **4** | D3 (146.83 Hz) | **E3** | **164.81 Hz** |
+| **3** | G3 (196.00 Hz) | **A3** | **220.00 Hz** |
+| **2** | B3 (246.94 Hz) | **C#4** | **277.18 Hz** |
+| **1 (High)** | E4 (329.63 Hz) | **F#4** | **369.99 Hz** |
+
+When a chord finger dot is pressed at a specific fret ($F$) on a string ($S$), the target pluck frequency ($f$) is calculated using standard geometric semitone sequences:
+
+$$f = f_{\text{capo}, S} \cdot (\text{SEMITONE\_RATIO})^{F}$$
+
+Where:
+* $f_{\text{capo}, S}$ is the Capo 2 base pitch frequency of the target string.
+* $\text{SEMITONE\_RATIO} = 2^{1/12} \approx 1.059463$.
+* $F$ is the fret index number (e.g., `3` for the G chord on string 6).
+
+This dynamic calculation generates precise frequencies across the 7-fret practice board layout on-the-fly, which are then passed into the Karplus-Strong waveguide engine.
+
+---
+
+## 2. Physical Waveguide Principles
 
 The synthesis engine models the physics of a plucked string using a closed feedback loop:
 
@@ -57,7 +84,7 @@ This dynamic blend and decay structure ensures that high-frequency treble string
 
 ---
 
-## 2. Dynamic Damping & Sustain Mathematics
+## 3. Dynamic Damping & Sustain Mathematics
 
 Steel-string acoustic guitars exhibit a wide range of sustain times: thick bass strings ring out for several seconds, while thin treble strings decay rapidly due to air resistance and internal friction.
 
@@ -83,7 +110,7 @@ This models precise sustain profiles across the fretboard register:
 
 ---
 
-## 3. Web Audio Node Routing
+## 4. Web Audio Node Routing
 
 Once the waveguide buffer is computed, the source node is piped through a multi-stage filtering and reverb send pipeline:
 
