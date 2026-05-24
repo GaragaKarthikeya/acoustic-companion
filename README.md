@@ -118,6 +118,12 @@ acoustic-companion/
 │   │   └── lib.rs             # Tauri application setups
 │   ├── Cargo.toml             # Rust dependencies and builds
 │   └── tauri.conf.json        # Tauri workspace properties
+├── docs/                      # Technical Documentation deep-dives
+│   ├── architecture.md        # Technical architecture, ESM loading, Tauri config
+│   ├── audio_synthesis.md     # Mathematical synthesis equations & node routing
+│   ├── tuner_and_practice.md  # Precision scheduler, tap tempo math, practice loop
+│   ├── contributing.md        # Multi-platform Actions build, environment, Vercel
+│   └── ui_consistency_guide.md # UI Consistency & Design System Guide (variables, HSL)
 ├── README.md                  # Project documentation
 ├── CODE_OF_CONDUCT.md         # Contributor guidelines
 ├── SECURITY.md                # Security policy
