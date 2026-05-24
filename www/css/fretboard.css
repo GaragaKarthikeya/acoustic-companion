@@ -17,13 +17,11 @@
 
 .fretboard-neck-container {
     width: 100%;
-    max-height: 55px;
-    height: 55px;
+    max-height: 115px;
+    height: 115px;
     position: relative;
     overflow: hidden;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid rgba(255, 255, 255, 0.04);
-    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.9);
+    border-radius: var(--radius-level-md);
     flex-shrink: 0;
 }
 
@@ -33,23 +31,23 @@
 }
 
 .neck-wood { 
-    fill: hsl(18, 16%, 12%); /* Luxurious warm rosewood wood grain tone */
+    fill: hsl(var(--base-hue), 28%, 15.5%); /* Luxurious mahogany wood grain tone aligned with gold theme */
 }
 .headstock-nut { 
-    fill: hsl(35, 30%, 82%); /* Premium creamy bone/ivory nut */
-    stroke: hsl(35, 20%, 65%); 
+    fill: hsl(var(--base-hue), 32%, 76%); /* Premium bone nut matching theme */
+    stroke: hsl(var(--base-hue), 22%, 58%); 
 }
 .nut-bar { 
-    fill: #dfd8d4; 
-    stroke: #b1a7a0; 
+    fill: hsl(var(--base-hue), 16%, 86%); 
+    stroke: hsl(var(--base-hue), 16%, 74%); 
 }
 .fret-wire { 
-    stroke: #b5aaa2; /* Polished nickel frets */
-    stroke-width: 1.4px; 
+    stroke: hsla(var(--base-hue), 20%, 75%, 0.65); /* Polished nickel frets with warm tone */
+    stroke-width: 1.6px; 
     filter: drop-shadow(0.5px 0px 0px rgba(0, 0, 0, 0.45));
 }
 .marker-dot { 
-    fill: #e3dcd5; /* Pearl/Mother-of-pearl visual inlay dots */
+    fill: hsl(var(--base-hue), 15%, 85%); /* Warm pearl inlay */
     opacity: 0.95; 
     filter: drop-shadow(0 0 3px var(--accent-gold-glow));
 }
@@ -95,33 +93,33 @@
 .progression-cheat-sheet {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: var(--space-level-md);
     width: 100%;
-    border-top: 1px dashed rgba(255, 255, 255, 0.03);
-    padding-top: 3px;
+    border-top: 1.2px dashed rgba(255, 255, 255, 0.06);
+    padding-top: var(--space-level-sm);
     flex-shrink: 0;
 }
 
-.sheet-section { display: flex; flex-direction: column; gap: 1px; }
+.sheet-section { display: flex; flex-direction: column; gap: var(--space-level-xs); }
 .sheet-section .section-label {
-    font-size: 0.5rem;
+    font-size: 0.8rem;
     font-weight: 800;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
 }
 
-.section-prog { display: flex; align-items: center; gap: 3px; }
+.section-prog { display: flex; align-items: center; gap: var(--space-level-sm); }
 
 .prog-c {
     font-family: var(--font-mono);
-    font-size: 0.58rem;
+    font-size: 0.95rem;
     font-weight: 800;
-    color: var(--text-muted);
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px solid rgba(255, 255, 255, 0.02);
-    padding: 0px 3px;
-    border-radius: 3px;
+    color: var(--text-secondary);
+    background: hsla(var(--base-hue), 10%, 14%, 0.45);
+    border: 1px solid hsla(var(--base-hue), 74%, 60%, 0.12);
+    padding: 4px 10px;
+    border-radius: var(--radius-level-sm);
     transition: all var(--transition-fast);
 }
 
@@ -133,4 +131,4 @@
     box-shadow: 0 0 6px var(--accent-gold-faint);
 }
 
-.prog-arrow { font-size: 0.55rem; color: var(--text-muted); }
+.prog-arrow { font-size: var(--font-level-md); color: var(--text-muted); }

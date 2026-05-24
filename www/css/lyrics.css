@@ -27,7 +27,7 @@
     font-family: var(--font-ui);
     font-size: 0.6rem;
     font-weight: 700;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-level-sm);
     cursor: pointer;
     transition: all var(--transition-fast);
     flex-grow: 1;
@@ -68,7 +68,7 @@
     flex-direction: column;
     gap: 4px;
     padding: 4px 8px;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-level-md);
     border: 1px solid transparent;
     transition: all var(--transition-normal);
 }
@@ -173,7 +173,7 @@
     transform: translateX(-50%) translateY(8px) scale(0.92);
     background: rgba(18, 15, 14, 0.98);
     border: 1px solid var(--accent-gold);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-level-md);
     padding: 6px 8px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
     z-index: 500;

@@ -15,7 +15,7 @@
     padding: 0 16px;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-level-lg);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
     height: 48px;
     min-height: 48px;
@@ -61,7 +61,7 @@
     gap: 2px;
     background: rgba(0, 0, 0, 0.3);
     padding: 4px 10px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-level-sm);
     border: 1px solid rgba(255, 255, 255, 0.02);
 }
 
@@ -97,7 +97,7 @@
     display: flex;
     flex-direction: column;
     padding: 3px 8px;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-level-md);
     border: 1px solid rgba(255, 255, 255, 0.04);
     background: rgba(255, 255, 255, 0.01);
 }
@@ -147,7 +147,7 @@
     background: linear-gradient(135deg, hsla(var(--base-hue), 10%, 14%, 0.7) 0%, hsla(var(--base-hue), 10%, 11%, 0.6) 100%);
     backdrop-filter: blur(12px) saturate(110%);
     border: 1.2px solid var(--border-color);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-level-lg);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -163,33 +163,33 @@
 .card-header {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    background: rgba(0, 0, 0, 0.15);
+    gap: var(--space-level-sm);
+    padding: 0 var(--space-level-lg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    background: rgba(0, 0, 0, 0.18);
     flex-shrink: 0;
-    min-height: 30px;
-    max-height: 30px;
+    min-height: 42px;
+    max-height: 42px;
 }
 
 .card-header i, .card-header svg {
     color: var(--accent-gold);
-    width: 13px;
-    height: 13px;
+    width: 15px;
+    height: 15px;
     flex-shrink: 0;
 }
 
 .card-header h3 {
-    font-size: 0.68rem;
+    font-size: var(--font-level-sm);
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     flex-grow: 1;
     white-space: nowrap;
 }
 
 .card-subtitle {
-    font-size: 0.55rem;
+    font-size: var(--font-level-xs);
     color: var(--text-secondary);
     font-weight: 500;
     white-space: nowrap;
@@ -225,7 +225,7 @@
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     padding: 24px;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-level-lg);
     max-width: 400px;
     width: 90%;
     text-align: center;

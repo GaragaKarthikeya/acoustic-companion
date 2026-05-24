@@ -28,7 +28,7 @@
     justify-content: center;
     width: 34px;
     height: 34px;
-    border-radius: 50%;
+    border-radius: var(--radius-level-full);
     background: rgba(255, 255, 255, 0.02);
     border: 1.5px solid var(--border-color);
     cursor: pointer;
@@ -41,14 +41,14 @@
     background: var(--accent-gold-faint);
     border-color: var(--accent-gold);
     color: var(--accent-gold);
-    box-shadow: 0 0 8px var(--accent-gold-glow);
+    box-shadow: var(--glow-level-gold);
 }
 
 .tuner-string.playing {
     background: rgba(229, 154, 76, 0.15);
     border-color: var(--accent-gold);
     color: var(--accent-gold);
-    box-shadow: 0 0 10px var(--accent-gold-glow);
+    box-shadow: var(--glow-level-gold);
     animation: string-vibrate 0.1s infinite alternate;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .string-num {
-    font-size: 0.45rem;
+    font-size: var(--font-level-xs);
     font-weight: 600;
     color: var(--text-muted);
     line-height: 1;
@@ -67,7 +67,7 @@
 .tuner-string.playing .string-num { color: var(--text-secondary); }
 
 .string-note {
-    font-size: 0.68rem;
+    font-size: var(--font-level-sm);
     font-weight: 800;
     line-height: 1.1;
 }

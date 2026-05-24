@@ -134,6 +134,7 @@ export function setupMetronomeUI() {
         soundBtn.addEventListener("click", () => {
             synthState.soundEnabled = !synthState.soundEnabled;
             soundBtn.classList.toggle("active", synthState.soundEnabled);
+            soundBtn.classList.toggle("muted", !synthState.soundEnabled);
             soundBtn.innerHTML = synthState.soundEnabled
                 ? '<i data-lucide="volume-2"></i>'
                 : '<i data-lucide="volume-x"></i>';

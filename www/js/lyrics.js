@@ -55,7 +55,7 @@ export function startPracticeMode() {
     if (btn) {
         btn.classList.remove("btn-accent");
         btn.classList.add("btn-secondary");
-        btn.innerHTML = '<i data-lucide="square"></i> Stop Practice';
+        btn.innerHTML = 'Stop Practice';
     }
 
     const scrollerStatus = document.getElementById("scroller-status");
@@ -73,7 +73,7 @@ export function stopPracticeMode() {
     if (btn) {
         btn.classList.remove("btn-secondary");
         btn.classList.add("btn-accent");
-        btn.innerHTML = '<i data-lucide="zap"></i> Start Practice';
+        btn.innerHTML = 'Start Practice';
     }
 
     const scrollerStatus = document.getElementById("scroller-status");

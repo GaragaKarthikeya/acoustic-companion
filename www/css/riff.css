@@ -17,7 +17,7 @@
 .tab-wrapper {
     background: radial-gradient(circle at center, hsl(var(--base-hue), 10%, 8%) 0%, hsl(var(--base-hue), 12%, 4.5%) 100%);
     border: 1.2px solid hsla(var(--base-hue), 74%, 60%, 0.08);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-level-md);
     padding: 10px 14px;
     overflow-x: auto;
     overflow-y: hidden;

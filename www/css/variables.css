@@ -1,4 +1,4 @@
-/* 1. Cohesive, Premium HSL Design Tokens */
+/* 1. Global Standard Design System Levels */
 :root {
     /* Central Hue Controller: Golden Wood/Amber (24) */
     --base-hue: 24;
@@ -35,15 +35,44 @@
     --color-red: hsl(var(--color-red-raw));             /* Premium rust red */
     --color-red-glow: hsla(var(--color-red-raw), 0.4);
 
-    /* Fonts & Radiuses */
+    /* Fonts Definition */
     --font-ui: 'Outfit', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
+    /* GLOBAL VISUAL STANDARDS & LEVELS */
 
-    /* Micro-Animations & Physics-Based Transitions */
+    /* Typography Hierarchy Levels */
+    --font-level-xs: 0.62rem;   /* Captions, labels, descriptors */
+    --font-level-sm: 0.72rem;   /* UI button text, metadata grids */
+    --font-level-md: 0.85rem;   /* Main body text, tab items, sub-labels */
+    --font-level-lg: 0.98rem;   /* Panel headers, card subheadings */
+    --font-level-xl: 1.25rem;   /* Main card headers, tempo readouts */
+    --font-level-xxl: 1.55rem;  /* Hero logo, brand title */
+
+    /* Padding & Spacing Levels */
+    --space-level-xs: 4px;
+    --space-level-sm: 8px;
+    --space-level-md: 12px;
+    --space-level-lg: 16px;
+    --space-level-xl: 24px;
+
+    /* Border Radius Levels */
+    --radius-level-sm: 4px;
+    --radius-level-md: 8px;
+    --radius-level-lg: 12px;
+    --radius-level-xl: 16px;
+    --radius-level-full: 9999px;
+
+    /* Depth Shadows & Neon Glow Levels */
+    --shadow-level-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-level-md: 0 8px 32px rgba(0, 0, 0, 0.55);
+    --shadow-level-lg: 0 16px 48px rgba(0, 0, 0, 0.7);
+
+    --glow-level-gold: 0 0 12px var(--accent-gold-glow);
+    --glow-level-gold-heavy: 0 0 20px var(--accent-gold-glow);
+    --glow-level-green: 0 0 12px var(--color-green-glow);
+    
+    /* Global Transitions */
     --transition-fast: 0.12s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-normal: 0.24s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -73,7 +102,7 @@ body {
 }
 ::-webkit-scrollbar-thumb { 
     background: var(--text-muted); 
-    border-radius: var(--radius-sm); 
+    border-radius: var(--radius-level-sm); 
 }
 ::-webkit-scrollbar-thumb:hover { 
     background: var(--accent-gold); 
