@@ -15,7 +15,7 @@ export function renderChordLibrary() {
         card.innerHTML = `
             <span class="chord-name">${chord.name}</span>
             ${buildChordSVG(key)}
-            <span class="badge-label" style="font-size:0.45rem;text-align:center;">${chord.subtitle}</span>
+            <span class="badge-label" style="font-size:0.58rem;text-align:center;">${chord.subtitle}</span>
         `;
 
         card.addEventListener("click", () => {
