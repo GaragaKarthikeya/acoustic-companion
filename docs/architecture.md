@@ -1,6 +1,6 @@
 # Technical Architecture & System Design
 
-Acoustic Companion utilizes a decoupled, high-performance frontend-to-native architecture that runs cleanly in standard modern web environments and compiles into a native Windows desktop application. 
+Acoustic Companion utilizes a decoupled, high-performance frontend-to-native architecture that runs cleanly in standard modern web environments and compiles into a native cross-platform desktop application (Windows, macOS, and Linux). 
 
 This document outlines the file layout structures, browser-native JavaScript ES Module (ESM) systems, script load lifecycles, and Tauri WebView2 system bindings.
 
