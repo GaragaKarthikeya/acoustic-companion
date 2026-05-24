@@ -16,28 +16,32 @@ To establish a local debug environment for compilation:
 ### Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/acoustic_companion.git
-   cd acoustic_companion
+   git clone https://github.com/GaragaKarthikeya/acoustic-companion.git
+   cd acoustic-companion
    ```
-2. Open in your preferred editor (e.g. VS Code).
-3. The frontend static assets are completely self-contained under `/www` and the Tauri Rust bindings are located in `/src-tauri`.
+2. Install frontend and CLI dependencies:
+   ```bash
+   npm install
+   ```
+3. Open in your preferred editor (e.g. VS Code).
+4. The frontend static assets are completely self-contained under `/www` and the Tauri Rust bindings are located in `/src-tauri`.
 
 ---
 
 ## 2. Developer Commands
 
-Tauri's CLI compiles and bundles both frontend assets and backend Rust crates seamlessly:
+Tauri's CLI compiles and bundles both frontend assets and backend Rust crates seamlessly. Since we have a root `package.json` configured:
 
 ### Run in Local Development Mode
 This launches a local debug window with hot-reloading and Rust logs enabled:
 ```bash
-npx tauri dev
+npm run dev
 ```
 
 ### Compile Production Binaries
 This builds highly optimized desktop executables and installers:
 ```bash
-npx tauri build
+npm run build
 ```
 * **NSIS Setup Installer**: Generates `src-tauri/target/release/bundle/nsis/acoustic_companion_0.1.0_x64-setup.exe`
 * **Enterprise MSI Installer**: Generates `src-tauri/target/release/bundle/msi/acoustic_companion_0.1.0_x64_en-US.msi`
@@ -47,7 +51,7 @@ npx tauri build
 ## 3. GitHub Releases & Distribution
 
 When publishing new releases:
-1. Compile the production executables using `npx tauri build`.
+1. Compile the production executables locally using `npm run build` or use the automated CI/CD pipeline (see Section 5).
 2. Draft a new release on GitHub matching the version specified in `src-tauri/tauri.conf.json`.
 3. Upload the compiled NSIS `.exe` setup installer and MSI package directly to the release assets.
 4. Future updates are automatically delivered if configured with Tauri's native updater channel.
@@ -63,3 +67,21 @@ The `/www` directory is fully standard-compliant and can be hosted statically on
    * **Framework Preset**: `Other`
    * **Root Directory**: `www` *(Crucial: This isolates the web pages and skips Tauri's Rust directories during cloud building)*
 3. Click **Deploy**. Vercel will serve your ES modules globally over high-speed static CDNs.
+
+---
+
+## 5. Automated CI/CD Releases (GitHub Actions)
+
+A GitHub Actions workflow is pre-configured at `.github/workflows/publish.yml` to automatically build and release the application:
+
+### How to Trigger an Automated Release Build
+1. Update the version inside `src-tauri/tauri.conf.json` and `package.json` (e.g., `"0.2.0"`).
+2. Commit and push the changes to `main`.
+3. Tag the commit with your new version prefixed with a `v` and push it:
+   ```bash
+   git tag v0.2.0
+   git push origin v0.2.0
+   ```
+4. GitHub Actions will automatically provision virtual environments for **Windows** and **macOS**, compile release binaries for both platforms (including universal Apple Silicon/Intel binaries for macOS), draft a new release page, and upload the installers/executables to that release draft!
+5. Navigate to your repository's **Releases** tab, review the compiled drafts, and click **Publish Release** when ready.
+

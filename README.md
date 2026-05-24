@@ -32,7 +32,7 @@ Integrated with a lightweight Rust backend using Tauri v2:
 ## Directory Structure
 
 ```text
-Photograph/
+acoustic-companion/
 ├── www/
 │   ├── css/
 │   │   ├── variables.css      # Custom properties, colors, resets
