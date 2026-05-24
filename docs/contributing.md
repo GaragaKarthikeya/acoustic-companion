@@ -109,7 +109,7 @@ VERSION=$(node -e "console.log(require('./src-tauri/tauri.conf.json').version)")
 
 Then, a normalization script sweeps the bundle folders, remapping output files to a clean target directory (`dist/`) using clean naming patterns:
 
-$$\text{acoustic\_companion}-\{\text{version}\}-\{\text{system}\}-\{\text{kind}\}.\{\text{ext}\}$$
+> `acoustic_companion-{version}-{system}-{kind}.{ext}`
 
 * **`system`**: maps to `macos-universal`, `windows-x86_64`, or `linux-x86_64`.
 * **`kind`**:
