@@ -1,6 +1,6 @@
 # Audio Synthesis & Karplus-Strong Waveguide
 
-Acoustic Session utilizes real-time **Karplus-Strong physical modeling synthesis** to generate realistic steel-string guitar tones directly in the client browser, completely bypassing the memory overhead of loading heavy audio sample files.
+Acoustic Companion utilizes real-time **Karplus-Strong physical modeling synthesis** to generate realistic steel-string guitar tones directly in the client browser, completely bypassing the memory overhead of loading heavy audio sample files.
 
 ---
 

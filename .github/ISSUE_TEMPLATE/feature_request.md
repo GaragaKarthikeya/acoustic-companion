@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an improvement for Acoustic Session
+about: Suggest an improvement for Acoustic Companion
 title: "Feature: "
 labels: enhancement
 assignees: ""

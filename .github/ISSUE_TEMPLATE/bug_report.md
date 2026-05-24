@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a reproducible problem in Acoustic Session
+about: Report a reproducible problem in Acoustic Companion
 title: "Bug: "
 labels: bug
 assignees: ""

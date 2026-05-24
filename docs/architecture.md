@@ -1,6 +1,6 @@
 # System Architecture Documentation
 
-Acoustic Session utilizes a decoupled, modern frontend-to-native architecture that runs cleanly in standard web environments and compiles into a high-performance Windows desktop application. 
+Acoustic Companion utilizes a decoupled, modern frontend-to-native architecture that runs cleanly in standard web environments and compiles into a high-performance Windows desktop application. 
 
 This document outlines the visual layout structures, native browser ES module (ESM) systems, and Tauri webview bindings.
 

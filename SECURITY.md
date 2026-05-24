@@ -1,6 +1,6 @@
 # Security Policy
 
-This document outlines the security policy for the **Acoustic Session** (acoustic-companion) project, detailing how to report vulnerabilities and which versions are supported.
+This document outlines the security policy for the **Acoustic Companion** (acoustic-companion) project, detailing how to report vulnerabilities and which versions are supported.
 
 ## Supported Versions
 

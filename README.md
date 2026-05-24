@@ -1,6 +1,6 @@
-# Acoustic Session (Yamaha F280 Companion)
+# Acoustic Companion (Yamaha F280 Companion)
 
-Acoustic Session is a native desktop application designed for learning and practicing Ed Sheeran's "Photograph" on the guitar. Optimized specifically for standard 1080p FHD displays, the application bundles an interactive guitar tuner, chord library, rhythm metronome scheduler, horizontal tab scroller player, and a scroll-synchronized lyrics sheet in an elegant, glassmorphic layout.
+Acoustic Companion is a native desktop application designed for learning and practicing Ed Sheeran's "Photograph" on the guitar. Optimized specifically for standard 1080p FHD displays, the application bundles an interactive guitar tuner, chord library, rhythm metronome scheduler, horizontal tab scroller player, and a scroll-synchronized lyrics sheet in an elegant, glassmorphic layout.
 
 Powered by a native Rust backend and Webview2 frontend utilizing Tauri v2, the application runs with an extremely low memory footprint of just 3.4 MB of RAM.
 

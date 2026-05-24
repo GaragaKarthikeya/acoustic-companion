@@ -1,6 +1,6 @@
 # Metronome Engine & Practice Board Synchronization
 
-Acoustic Session features a high-precision metronome scheduler and a dynamically synchronized practice engine. This document details the lookahead scheduling system, tap tempo tracking, and the visual/audio lyrics sync loop.
+Acoustic Companion features a high-precision metronome scheduler and a dynamically synchronized practice engine. This document details the lookahead scheduling system, tap tempo tracking, and the visual/audio lyrics sync loop.
 
 ---
 

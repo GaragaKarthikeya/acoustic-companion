@@ -1,6 +1,6 @@
 # Contribution & Developer Guide
 
-Acoustic Session welcomes open-source contributions. This document serves as a guide for setting up the local environment, building the native application, and packaging public releases.
+Acoustic Companion welcomes open-source contributions. This document serves as a guide for setting up the local environment, building the native application, and packaging public releases.
 
 ---
 

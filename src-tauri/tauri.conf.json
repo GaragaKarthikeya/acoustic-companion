@@ -2,14 +2,14 @@
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "acoustic_companion",
   "version": "0.1.0",
-  "identifier": "com.acoustic.session",
+  "identifier": "com.acoustic.companion",
   "build": {
     "frontendDist": "../www"
   },
   "app": {
     "windows": [
       {
-        "title": "Acoustic Session",
+        "title": "Acoustic Companion",
         "width": 1280,
         "height": 800,
         "resizable": true,
