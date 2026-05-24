@@ -58,6 +58,9 @@ jobs:
       - name: Install frontend dependencies
         run: npm install
 
+      - name: Build frontend
+        run: npm run build
+
       - name: Build and Publish
         uses: tauri-apps/tauri-action@v0
         env:
@@ -70,84 +73,104 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
 
+      - name: Show build output
+        run: |
+          echo '--- target/release ---'
+          ls -la src-tauri/target/release || true
+          echo '--- bundle ---'
+          ls -la src-tauri/target/release/bundle || true
+
       - name: Get version
         id: get_version
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const cfg = JSON.parse(fs.readFileSync('src-tauri/tauri.conf.json', 'utf8'));
-            return cfg.version;
+        run: |
+          VERSION=$(node -e "console.log(require('./src-tauri/tauri.conf.json').version)")
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        shell: bash
 
       - name: Normalize bundle name
         id: rename_bundle
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-            const workspace = process.env.GITHUB_WORKSPACE || '.';
-            const runnerOs = process.env.RUNNER_OS || process.env.RUNNER || '';
-            const version = '${{ steps.get_version.outputs.result }}';
-            // Map runner OS to our system labels
-            let system = 'unknown';
-            if (runnerOs.toLowerCase().includes('mac')) system = 'macos-universal';
-            else if (runnerOs.toLowerCase().includes('windows')) system = 'windows-x86_64';
-            else if (runnerOs.toLowerCase().includes('linux')) system = 'linux-x86_64';
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const workspace = process.env.GITHUB_WORKSPACE || '.';
+          const version = process.env.VERSION || 'unknown';
+          const runnerOs = process.env.RUNNER_OS || process.env.RUNNER || '';
+          let system = 'unknown';
+          if (/mac/i.test(runnerOs)) system = 'macos-universal';
+          else if (/win/i.test(runnerOs)) system = 'windows-x86_64';
+          else if (/linux/i.test(runnerOs)) system = 'linux-x86_64';
 
-            const bundleDir = path.join(workspace, 'src-tauri', 'target', 'release', 'bundle');
-            if (!fs.existsSync(bundleDir)) return `no-bundle-dir:${bundleDir}`;
-            const entries = fs.readdirSync(bundleDir).filter(e => !e.startsWith('.'));
-            if (entries.length === 0) return `no-bundles-found:${bundleDir}`;
+          const bundleDir = path.join(workspace, 'src-tauri', 'target', 'release', 'bundle');
+          const out = process.env.GITHUB_OUTPUT;
+          if (!fs.existsSync(bundleDir)) {
+            fs.appendFileSync(out, `RESULT=no-bundle-dir:${bundleDir}\n`);
+            console.log('no-bundle-dir:'+bundleDir);
+            process.exit(0);
+          }
+          const entries = fs.readdirSync(bundleDir).filter(e => !e.startsWith('.'));
+          if (entries.length === 0) {
+            fs.appendFileSync(out, `RESULT=no-bundles-found:${bundleDir}\n`);
+            console.log('no-bundles-found:'+bundleDir);
+            process.exit(0);
+          }
 
-            // prefer common installer extensions
-            const preferredExts = ['dmg','AppImage','deb','msi','exe','zip','pkg','tar.gz','tar.xz'];
-            let picked = null;
+          const preferredExts = ['dmg','AppImage','deb','msi','exe','zip','pkg','tar.gz','tar.xz'];
+          let picked = null;
+          for (const e of entries) {
+            const full = path.join(bundleDir, e);
+            const stat = fs.statSync(full);
+            if (stat.isFile()) {
+              const lower = e.toLowerCase();
+              for (const pe of preferredExts) if (lower.endsWith(pe.toLowerCase())) { picked = full; break; }
+              if (picked) break;
+            }
+          }
+          if (!picked) {
             for (const e of entries) {
               const full = path.join(bundleDir, e);
-              const stat = fs.statSync(full);
-              if (stat.isFile()) {
-                const lower = e.toLowerCase();
-                for (const pe of preferredExts) if (lower.endsWith(pe.toLowerCase())) { picked = full; break; }
-                if (picked) break;
-              }
+              if (fs.statSync(full).isFile()) { picked = full; break; }
             }
-            if (!picked) {
-              // fallback to first file
-              for (const e of entries) {
-                const full = path.join(bundleDir, e);
-                if (fs.statSync(full).isFile()) { picked = full; break; }
-              }
+          }
+          if (!picked) {
+            for (const e of entries) {
+              const full = path.join(bundleDir, e);
+              if (fs.statSync(full).isDirectory()) { picked = full; break; }
             }
-            // if still not picked, use first directory (e.g., .app)
-            if (!picked) {
-              for (const e of entries) {
-                const full = path.join(bundleDir, e);
-                if (fs.statSync(full).isDirectory()) { picked = full; break; }
-              }
-            }
-            if (!picked) return `no-valid-bundle:${bundleDir}`;
+          }
+          if (!picked) {
+            fs.appendFileSync(out, `RESULT=no-valid-bundle:${bundleDir}\n`);
+            console.log('no-valid-bundle:'+bundleDir);
+            process.exit(0);
+          }
 
-            const ext = path.extname(picked).replace(/^[.]/, '') || '';
-            const safeExt = ext === '' && fs.statSync(picked).isDirectory() ? '' : `.${ext}`;
-            const newName = `acoustic_companion-${version}-${system}${safeExt}`;
-            const dest = path.join(workspace, newName);
-
-            try {
-              // for files, move/rename into workspace with new name; for dirs, leave in place and return path
-              if (fs.statSync(picked).isFile()) {
-                fs.renameSync(picked, dest);
-                return dest;
-              } else {
-                // directory: return original path (upload will upload the folder)
-                return picked;
-              }
-            } catch (err) {
-              return `error:${err.message}`;
+          const ext = path.extname(picked).replace(/^[.]/, '') || '';
+          const safeExt = ext === '' && fs.statSync(picked).isDirectory() ? '' : `.${ext}`;
+          const newName = `acoustic_companion-${version}-${system}${safeExt}`;
+          const dest = path.join(workspace, newName);
+          try {
+            if (fs.statSync(picked).isFile()) {
+              fs.renameSync(picked, dest);
+              fs.appendFileSync(out, `RESULT=${dest}\n`);
+              console.log('Renamed to '+dest);
+              process.exit(0);
+            } else {
+              fs.appendFileSync(out, `RESULT=${picked}\n`);
+              console.log('Directory bundle at '+picked);
+              process.exit(0);
             }
+          } catch (err) {
+            fs.appendFileSync(out, `RESULT=error:${err.message}\n`);
+            console.log('error:'+err.message);
+            process.exit(0);
+          }
+        env:
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
+        shell: bash
 
       - name: Upload renamed artifact
+        if: ${{ !startsWith(steps.rename_bundle.outputs.RESULT, 'no-') && !startsWith(steps.rename_bundle.outputs.RESULT, 'error:') }}
         uses: actions/upload-artifact@v4
         with:
-          name: acoustic_companion-${{ steps.get_version.outputs.result }}-${{ matrix.platform }}
-          path: ${{ steps.rename_bundle.outputs.result }}
+          name: acoustic_companion-${{ steps.get_version.outputs.VERSION }}-${{ matrix.platform }}
+          path: ${{ steps.rename_bundle.outputs.RESULT }}
