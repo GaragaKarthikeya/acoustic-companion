@@ -144,17 +144,21 @@
 
 /* 5. Card Base Styles */
 .card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background: linear-gradient(135deg, hsla(var(--base-hue), 10%, 14%, 0.7) 0%, hsla(var(--base-hue), 10%, 11%, 0.6) 100%);
+    backdrop-filter: blur(12px) saturate(110%);
+    border: 1.2px solid var(--border-color);
     border-radius: var(--radius-lg);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: border-color var(--transition-fast);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
 }
 
-.card:hover { border-color: var(--border-color-hover); }
+.card:hover { 
+    border-color: var(--border-color-hover); 
+    box-shadow: 0 12px 40px rgba(229, 154, 76, 0.04), 0 8px 32px rgba(0, 0, 0, 0.55);
+}
 
 .card-header {
     display: flex;

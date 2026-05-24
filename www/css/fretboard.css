@@ -32,25 +32,50 @@
     height: 100%;
 }
 
-.neck-wood { fill: #221c1a; }
-.headstock-nut { fill: #3b302c; stroke: #4d3e38; }
-.nut-bar { fill: #dfd8d4; stroke: #b1a7a0; }
-.fret-wire { stroke: #7c716b; stroke-width: 1.2px; }
-.marker-dot { fill: rgba(255, 255, 255, 0.22); }
+.neck-wood { 
+    fill: hsl(18, 16%, 12%); /* Luxurious warm rosewood wood grain tone */
+}
+.headstock-nut { 
+    fill: hsl(35, 30%, 82%); /* Premium creamy bone/ivory nut */
+    stroke: hsl(35, 20%, 65%); 
+}
+.nut-bar { 
+    fill: #dfd8d4; 
+    stroke: #b1a7a0; 
+}
+.fret-wire { 
+    stroke: #b5aaa2; /* Polished nickel frets */
+    stroke-width: 1.4px; 
+    filter: drop-shadow(0.5px 0px 0px rgba(0, 0, 0, 0.45));
+}
+.marker-dot { 
+    fill: #e3dcd5; /* Pearl/Mother-of-pearl visual inlay dots */
+    opacity: 0.95; 
+    filter: drop-shadow(0 0 3px var(--accent-gold-glow));
+}
 
 .string-wire {
-    stroke: #a08c80;
+    stroke: #c8b9ae;
     transition: stroke-width var(--transition-fast), stroke var(--transition-fast);
 }
 
+/* Highly realistic string-specific coloring (Plain Steel vs. Wound Bronze) */
+#fret-string-wire-1, #fret-string-wire-2 {
+    stroke: #dcd6cd; /* Highly polished plain steel strings */
+}
+
+#fret-string-wire-3, #fret-string-wire-4, #fret-string-wire-5, #fret-string-wire-6 {
+    stroke: #cca474; /* Phosphor bronze warm wound strings */
+}
+
 .string-wire.strummed {
-    stroke: var(--accent-gold);
+    stroke: var(--accent-gold) !important;
     animation: string-flash 0.15s ease-out;
 }
 
 @keyframes string-flash {
-    0% { stroke-width: 2.2px; stroke: #fff; }
-    100% { stroke-width: 1.0px; stroke: #a08c80; }
+    0% { stroke-width: 2.4px; stroke: #fff !important; filter: drop-shadow(0 0 6px var(--accent-gold-glow)); }
+    100% { stroke-width: 1.0px; }
 }
 
 .fretboard-finger-dot {
