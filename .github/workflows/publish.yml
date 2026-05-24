@@ -103,16 +103,26 @@ jobs:
           while IFS= read -r -d '' SRC; do
             FOUND=1
             BASE="$(basename "${SRC}")"
+            SUFFIX=""
             EXT=""
-            KIND=""
 
             case "${BASE}" in
-              *.app.tar.gz) EXT="tar.gz"; KIND="updater" ;;
-              *setup.exe) EXT="exe"; KIND="setup" ;;
-              *) EXT="${BASE##*.}"; KIND="$(echo "${EXT}" | tr '[:upper:]' '[:lower:]')" ;;
+              *.app.tar.gz) 
+                SUFFIX="-updater"
+                EXT="tar.gz" 
+                ;;
+              *setup.exe) 
+                SUFFIX="-setup"
+                EXT="exe" 
+                ;;
+              *) 
+                SUFFIX=""
+                EXT="${BASE##*.}" 
+                ;;
             esac
 
-            DEST="${DIST_DIR}/acoustic_companion-${VERSION}-${SYSTEM}-${KIND}.${EXT}"
+            # Cleanly formats: acoustic_companion-0.1.0-linux-x86_64.AppImage
+            DEST="${DIST_DIR}/acoustic_companion-${VERSION}-${SYSTEM}${SUFFIX}.${EXT}"
             cp "${SRC}" "${DEST}"
             echo "Prepared ${DEST}"
           done < <(find "${BUNDLE_DIR}" -type f \( \
@@ -135,13 +145,14 @@ jobs:
           name: acoustic_companion-${{ steps.get_version.outputs.VERSION }}-${{ matrix.platform }}
           path: ${{ steps.rename_bundles.outputs.RESULT }}/*
           retention-days: 1
+          # No archive: false here, allowing safe transport of multiple files
 
   publish-release:
     needs: build-tauri
     runs-on: ubuntu-latest
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v8 # v8 is the required companion to upload-artifact@v7
+        uses: actions/download-artifact@v8 # v8 automatically unpacks the v7 artifacts
         with:
           path: artifacts
           pattern: acoustic_companion-*

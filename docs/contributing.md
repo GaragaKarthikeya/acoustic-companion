@@ -1,87 +1,134 @@
-# Contribution & Developer Guide
+# Contribution & Developer Release Guide
 
-Acoustic Companion welcomes open-source contributions. This document serves as a guide for setting up the local environment, building the native application, and packaging public releases.
+Welcome to the Acoustic Companion developer guide. This document serves as a comprehensive reference for setting up local environments, building and packaging production binaries, deploying cloud mirrors, and managing automated multi-platform release pipelines.
 
 ---
 
-## 1. Local Development Setup
+## 1. Local Environment Setup
 
-To establish a local debug environment for compilation:
+To establish a local compiling and debugging environment, ensure the following system prerequisites are satisfied:
 
-### Prerequisites
-* **Node.js** (v18 or higher recommended)
-* **Rust Toolchain**: Install via `rustup` to get the latest stable Rust compiler (`rustc`) and Cargo.
-* **WebView2 Runtime**: Included by default in Windows 10/11.
+### 1. Prerequisites by Operating System
+* **All Platforms**: **Node.js** (v18 or higher recommended) and **npm** for dependencies management.
+* **Windows**: **WebView2 Runtime** (installed by default in Windows 10/11) and **Visual Studio C++ Build Tools** (Build Tools with C++ desktop development workload).
+* **macOS**: **Xcode Command Line Tools** (`xcode-select --install`).
+* **Linux (Debian/Ubuntu)**: Tauri v2 requires specific libraries for WebKitGTK and native systems operations. Install them using `apt`:
+  ```bash
+  sudo apt-get update
+  sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+  ```
 
-### Setup Instructions
-1. Clone the repository:
+### 2. General Setup Instructions
+1. Clone the codebase locally:
    ```bash
    git clone https://github.com/GaragaKarthikeya/acoustic-companion.git
-   cd acoustic-companion
    ```
-2. Install frontend and CLI dependencies:
+2. Navigate to the project root directory and install node modules:
    ```bash
    npm install
    ```
-3. Open in your preferred editor (e.g. VS Code).
-4. The frontend static assets are completely self-contained under `/www` and the Tauri Rust bindings are located in `/src-tauri`.
+3. Establish your Rust compiler toolchain using `rustup`:
+   ```bash
+   rustup default stable
+   ```
 
 ---
 
-## 2. Developer Commands
+## 2. Developer Build & Run Commands
 
-Tauri's CLI compiles and bundles both frontend assets and backend Rust crates seamlessly. Since we have a root `package.json` configured:
+The root `package.json` maps CLI scripts to compile and launch Tauri's native rust engine and WebView viewports:
 
-### Run in Local Development Mode
-This launches a local debug window with hot-reloading and Rust logs enabled:
 ```bash
+# Launch a development viewport with Hot Module Replacement (HMR) and Rust debug logging
 npm run dev
-```
 
-### Compile Production Binaries
-This builds highly optimized desktop executables and installers:
-```bash
+# Compile optimized release builds and bundle installer files
 npm run build
 ```
-* **NSIS Setup Installer**: Generates `src-tauri/target/release/bundle/nsis/acoustic_companion_0.1.0_x64-setup.exe`
-* **Enterprise MSI Installer**: Generates `src-tauri/target/release/bundle/msi/acoustic_companion_0.1.0_x64_en-US.msi`
+
+Upon executing `npm run build`, the native Rust compilations are cached under `src-tauri/target/release/` and packaged into standard platforms setups:
+* **Windows setups**:
+  * **NSIS EXE Installer**: `src-tauri/target/release/bundle/nsis/acoustic_companion_0.1.0_x64-setup.exe`
+  * **Enterprise MSI Installer**: `src-tauri/target/release/bundle/msi/acoustic_companion_0.1.0_x64_en-US.msi`
+* **macOS setups**: Compiled as standard Apple Disk Image `.dmg` wrappers or universal `.app.tar.gz` packages.
+* **Linux setups**: Compiled as standard Debian `.deb` packages or AppImage wrappers.
 
 ---
 
-## 3. GitHub Releases & Distribution
+## 3. Cloud Deployment (Vercel)
 
-When publishing new releases:
-1. Compile the production executables locally using `npm run build` or use the automated CI/CD pipeline (see Section 5).
-2. Draft a new release on GitHub matching the version specified in `src-tauri/tauri.conf.json`.
-3. Upload the compiled NSIS `.exe` setup installer and MSI package directly to the release assets.
-4. Future updates are automatically delivered if configured with Tauri's native updater channel.
-
----
-
-## 4. Vercel Static Web Deployment
-
-The `/www` directory is fully standard-compliant and can be hosted statically on Vercel:
+The `/www` frontend is fully static and complies with standard browser module scripts. It can be hosted on a cloud CDN using Vercel:
 
 1. Import the repository into your Vercel Dashboard.
-2. Configure **Project Settings**:
+2. Configure **Project Settings** precisely as follows:
    * **Framework Preset**: `Other`
-   * **Root Directory**: `www` *(Crucial: This isolates the web pages and skips Tauri's Rust directories during cloud building)*
-3. Click **Deploy**. Vercel will serve your ES modules globally over high-speed static CDNs.
+   * **Root Directory**: `www`
+   * *(Crucial: This isolates frontend static assets, skipping Tauri's Rust directories during the cloud build phase)*.
+3. Click **Deploy**. Vercel will host the modular ESM files globally over high-speed static CDNs.
 
 ---
 
-## 5. Automated CI/CD Releases (GitHub Actions)
+## 4. Automated Multi-Platform Releases (GitHub Actions)
 
-A GitHub Actions workflow is pre-configured at `.github/workflows/publish.yml` to automatically build and release the application:
+Acoustic Companion features a robust CI/CD workflow defined in `.github/workflows/publish.yml`. When triggered by a tagged push, the workflow provisions virtual machines to compile cross-platform installer binaries simultaneously.
+
+```mermaid
+graph TD
+    Tag[1. Git Push Tag v0.1.0] --> Workflow[2. GitHub Actions Workflow Triggered]
+    
+    subgraph Matrix [3. Parallel VM Compiling Matrix]
+        macOS[macos-latest VM] --> MacTarget[Build universal-apple-darwin]
+        Win[windows-2025 VM] --> WinTarget[Build x86_64 Windows]
+        Linux[ubuntu-latest VM] --> LinuxTarget[Build x86_64 Debian/AppImage]
+    end
+    
+    Workflow --> macOS
+    Workflow --> Win
+    Workflow --> Linux
+    
+    MacTarget --> Normalize[4. Normalized Naming Script]
+    WinTarget --> Normalize
+    LinuxTarget --> Normalize
+    
+    Normalize --> Upload[5. Upload to Workflow Run Artifacts]
+    Upload --> Release[6. Create GitHub Draft Release with installers attached]
+```
+
+### 1. Build Architecture Matrix
+The workflow runs three parallel build jobs across different virtual runners:
+1. **macOS Universal**: Builds universal Apple Silicon and Intel binaries by installing targets `aarch64-apple-darwin` and `x86_64-apple-darwin`, compiled using the cargo argument `--target universal-apple-darwin`.
+2. **Windows x86_64**: Compiles on a `windows-2025` runner to output setup executables and MSI installers.
+3. **Linux x86_64**: Compiles on an `ubuntu-latest` runner after installing WebKitGTK and app indicator libraries.
+
+### 2. Version Extraction and Bundle Normalization
+To keep names uniform across different matrix runs, the actions script runs a Bash step that extracts the application version from `tauri.conf.json`:
+
+```bash
+VERSION=$(node -e "console.log(require('./src-tauri/tauri.conf.json').version)")
+```
+
+Then, a normalization script sweeps the bundle folders, remapping output files to a clean target directory (`dist/`) using clean naming patterns:
+
+$$\text{acoustic\_companion}-\{\text{version}\}-\{\text{system}\}-\{\text{kind}\}.\{\text{ext}\}$$
+
+* **`system`**: maps to `macos-universal`, `windows-x86_64`, or `linux-x86_64`.
+* **`kind`**:
+  * `.app.tar.gz` $\rightarrow$ `updater` (for Tauri updater channels)
+  * `*setup.exe` $\rightarrow$ `setup`
+  * Standard extensions (e.g. `.msi`, `.dmg`, `.deb`, `.AppImage`) $\rightarrow$ lower-case extensions representing the installer format.
+
+### 3. Automated Draft Release Creation
+1. The workflow caches Rust compilation targets across runs to reduce build times using `swatinem/rust-cache@v2`.
+2. Normalized artifacts are uploaded temporarily using `actions/upload-artifact@v7`.
+3. The final `publish-release` job runs in a clean Ubuntu workspace, downloads all artifacts, and creates a **draft GitHub Release** using `softprops/action-gh-release@v2`. 
+4. The tagged version is published immediately as a draft with all multi-platform setups pre-attached as release assets!
 
 ### How to Trigger an Automated Release Build
-1. Update the version inside `src-tauri/tauri.conf.json` and `package.json` (e.g., `"0.2.0"`).
-2. Commit and push the changes to `main`.
-3. Tag the commit with your new version prefixed with a `v` and push it:
+1. Increment the version string inside `src-tauri/tauri.conf.json` and `package.json` (e.g. `"0.1.1"`).
+2. Commit and push the version updates to `main`.
+3. Create a matching tag and push it:
    ```bash
-   git tag v0.2.0
-   git push origin v0.2.0
+   git tag v0.1.1
+   git push origin v0.1.1
    ```
-4. GitHub Actions will automatically provision virtual environments for **Windows** and **macOS**, compile release binaries for both platforms (including universal Apple Silicon/Intel binaries for macOS), draft a new release page, and upload the installers/executables to that release draft!
-5. Navigate to your repository's **Releases** tab, review the compiled drafts, and click **Publish Release** when ready.
-
+4. Check your repository's **Actions** tab to watch the build runners compile. Once finished, check the **Releases** tab to publish the pre-packaged draft.
