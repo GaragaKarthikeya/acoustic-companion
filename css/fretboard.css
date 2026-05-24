@@ -1,0 +1,111 @@
+/* Fretboard Card */
+.fretboard-card {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.fretboard-body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background: rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.fretboard-neck-container {
+    width: 100%;
+    max-height: 55px;
+    height: 55px;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.9);
+    flex-shrink: 0;
+}
+
+.fretboard-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.neck-wood { fill: #221c1a; }
+.headstock-nut { fill: #3b302c; stroke: #4d3e38; }
+.nut-bar { fill: #dfd8d4; stroke: #b1a7a0; }
+.fret-wire { stroke: #7c716b; stroke-width: 1.2px; }
+.marker-dot { fill: rgba(255, 255, 255, 0.22); }
+
+.string-wire {
+    stroke: #a08c80;
+    transition: stroke-width var(--transition-fast), stroke var(--transition-fast);
+}
+
+.string-wire.strummed {
+    stroke: var(--accent-gold);
+    animation: string-flash 0.15s ease-out;
+}
+
+@keyframes string-flash {
+    0% { stroke-width: 2.2px; stroke: #fff; }
+    100% { stroke-width: 1.0px; stroke: #a08c80; }
+}
+
+.fretboard-finger-dot {
+    fill: var(--accent-gold);
+    stroke: var(--bg-darkest);
+    stroke-width: 1px;
+    filter: drop-shadow(0 0 4px var(--accent-gold-glow));
+    animation: finger-bounce 0.12s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes finger-bounce {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1.0); opacity: 1; }
+}
+
+/* Progression Cheat Sheet */
+.progression-cheat-sheet {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+    border-top: 1px dashed rgba(255, 255, 255, 0.03);
+    padding-top: 3px;
+    flex-shrink: 0;
+}
+
+.sheet-section { display: flex; flex-direction: column; gap: 1px; }
+.sheet-section .section-label {
+    font-size: 0.5rem;
+    font-weight: 800;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-prog { display: flex; align-items: center; gap: 3px; }
+
+.prog-c {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    padding: 0px 3px;
+    border-radius: 3px;
+    transition: all var(--transition-fast);
+}
+
+.prog-c.active {
+    color: var(--accent-gold);
+    background: var(--accent-gold-faint);
+    border-color: var(--accent-gold);
+    text-shadow: 0 0 4px var(--accent-gold-glow);
+    box-shadow: 0 0 6px var(--accent-gold-faint);
+}
+
+.prog-arrow { font-size: 0.55rem; color: var(--text-muted); }

@@ -1,0 +1,251 @@
+/* Lyrics Card */
+.lyrics-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.lyrics-header { background: rgba(0, 0, 0, 0.12); }
+
+.lyrics-controls { display: flex; align-items: center; }
+
+.sections-navigator {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    padding: 4px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    background: rgba(0, 0, 0, 0.12);
+    flex-shrink: 0;
+}
+
+.nav-section-btn {
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-secondary);
+    padding: 2px 6px;
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-grow: 1;
+    text-align: center;
+}
+
+.nav-section-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-section-btn.active {
+    color: var(--bg-darkest);
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 8px var(--accent-gold-glow);
+}
+
+/* Only this scrolls */
+.lyrics-body {
+    padding: 6px 10px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    flex-grow: 1;
+    min-height: 0;
+}
+
+.song-sheet {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 40px;
+}
+
+.song-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    transition: all var(--transition-normal);
+}
+
+.song-section.active {
+    background: rgba(255, 255, 255, 0.015);
+    border-color: rgba(255, 255, 255, 0.03);
+}
+
+.section-title {
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid rgba(229, 154, 76, 0.15);
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+/* Lyrics Lines — chord badges float above */
+.lyrics-line {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 14px;
+    column-gap: 3px;
+    line-height: 1.2;
+    margin-bottom: 2px;
+    padding-top: 14px;
+    position: relative;
+    width: 100%;
+}
+
+.lyric-chord-group {
+    display: inline-block;
+    position: relative;
+    margin-right: 3px;
+}
+
+.chord-badge {
+    position: absolute;
+    top: -14px;
+    left: 0;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    cursor: pointer;
+    user-select: none;
+    background: rgba(229, 154, 76, 0.08);
+    border: 1px solid rgba(229, 154, 76, 0.25);
+    border-radius: 3px;
+    padding: 0 3px;
+    height: 12px;
+    line-height: 10px;
+    white-space: nowrap;
+    z-index: 5;
+    transition: all var(--transition-fast);
+}
+
+.chord-badge:hover {
+    color: #fff;
+    background-color: var(--accent-gold);
+    box-shadow: 0 0 6px var(--accent-gold-glow);
+}
+
+.chord-badge.warning-transition {
+    animation: warning-glow 0.8s infinite ease-in-out;
+}
+
+@keyframes warning-glow {
+    0% { color: var(--accent-gold); background: rgba(229, 154, 76, 0.08); border-color: rgba(229, 154, 76, 0.25); }
+    50% { color: #fff; background-color: var(--accent-gold); border-color: #fff; box-shadow: 0 0 6px var(--accent-gold); }
+    100% { color: var(--accent-gold); background: rgba(229, 154, 76, 0.08); border-color: rgba(229, 154, 76, 0.25); }
+}
+
+.chord-badge.highlighted {
+    color: #fff;
+    background-color: var(--color-green);
+    border-color: var(--color-green);
+    box-shadow: 0 0 6px rgba(92, 163, 106, 0.5);
+}
+
+.lyric-text {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: pre;
+}
+
+.lyrics-line.instrumental {
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+}
+
+/* Chord Tooltip */
+.chord-tooltip {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px) scale(0.92);
+    background: rgba(18, 15, 14, 0.98);
+    border: 1px solid var(--accent-gold);
+    border-radius: var(--radius-md);
+    padding: 6px 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+    z-index: 500;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    backdrop-filter: blur(6px);
+}
+
+.lyric-chord-group:hover .chord-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1.0);
+}
+
+.tooltip-title {
+    font-size: 0.58rem;
+    font-weight: 800;
+    text-align: center;
+    color: var(--accent-gold);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+.tooltip-svg {
+    width: 55px;
+    height: 65px;
+    display: block;
+    margin: 0 auto;
+}
+
+.tooltip-svg .fret-line, .tooltip-svg .string-line { stroke: rgba(255, 255, 255, 0.15); }
+.tooltip-svg .nut-line { stroke: var(--text-primary); stroke-width: 2px; }
+.tooltip-svg .finger-dot { fill: var(--accent-gold); stroke: #120f0e; stroke-width: 0.8px; }
+.tooltip-svg .finger-text { font-size: 6px; font-weight: 800; fill: var(--bg-darkest); text-anchor: middle; }
+
+/* 10. Practice Footer (40px) */
+.lyrics-footer {
+    padding: 4px 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    background: rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    flex-shrink: 0;
+    justify-content: center;
+}
+
+.progress-bar-container {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 1.5px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--color-green);
+    box-shadow: 0 0 6px rgba(92, 163, 106, 0.5);
+    transition: width 0.3s ease;
+}
+
+.progress-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.58rem;
+    font-weight: 700;
+}
+
+#active-bar-label { color: var(--text-secondary); }
+#next-chord-prompt { color: var(--accent-gold); }

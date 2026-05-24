@@ -1,0 +1,148 @@
+/* Rhythm Card */
+.rhythm-card {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.rhythm-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.metronome-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 8px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* Buttons */
+.btn {
+    border: none;
+    outline: none;
+    font-family: var(--font-ui);
+    cursor: pointer;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    gap: 4px;
+}
+
+.btn-primary { background: var(--accent-gold); color: var(--bg-darkest); }
+.btn-primary:hover { background: #f5ba63; box-shadow: 0 0 10px var(--accent-gold-glow); }
+
+.btn-secondary { background: rgba(255, 255, 255, 0.04); color: var(--text-primary); border: 1px solid rgba(255, 255, 255, 0.06); }
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.08); }
+
+.btn-accent { background: var(--color-green); color: var(--bg-darkest); }
+.btn-accent:hover { background: #73c483; box-shadow: 0 0 12px rgba(92, 163, 106, 0.4); }
+
+.btn-sm { padding: 3px 8px; font-size: 0.65rem; border-radius: var(--radius-sm); }
+.btn-lg { padding: 10px 20px; font-size: 0.9rem; border-radius: var(--radius-md); }
+.btn-round { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; }
+
+.btn-icon {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+}
+
+.btn-icon:hover { color: var(--text-primary); }
+.btn-icon.active { background: var(--accent-gold-faint); border-color: var(--accent-gold); color: var(--accent-gold); }
+
+.tempo-slider-container { display: flex; flex-direction: column; flex-grow: 1; gap: 2px; }
+.tempo-display { display: flex; align-items: baseline; gap: 4px; }
+#bpm-val { font-size: 1.15rem; font-weight: 800; color: var(--text-primary); line-height: 1; }
+.bpm-unit { font-size: 0.55rem; color: var(--accent-gold); font-weight: 700; text-transform: uppercase; }
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 1.5px;
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    cursor: pointer;
+    box-shadow: 0 0 6px var(--accent-gold-glow);
+}
+
+.metro-buttons { display: flex; gap: 4px; }
+
+/* Strum Visualizer */
+.strum-visualizer { display: flex; flex-direction: column; gap: 3px; }
+
+.strum-visualizer-header { display: flex; justify-content: space-between; align-items: baseline; }
+.strum-visualizer-header h4 { font-size: 0.65rem; font-weight: 700; }
+.strum-style-highlight { color: var(--accent-gold); }
+.strum-desc { font-size: 0.55rem; color: var(--text-secondary); }
+
+.beat-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+    height: 36px;
+}
+
+.beat-pad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    position: relative;
+    transition: all var(--transition-normal);
+}
+
+.beat-pad.accent {
+    border-color: rgba(229, 154, 76, 0.35);
+    background: rgba(229, 154, 76, 0.05);
+}
+
+.beat-num { font-size: 0.65rem; font-weight: 800; color: var(--text-secondary); line-height: 1; }
+.beat-pad.accent .beat-num { color: var(--accent-gold); }
+.strum-arrow-indicator { font-size: 0.65rem; line-height: 1; font-weight: 800; color: var(--text-muted); }
+.beat-pad.accent .strum-arrow-indicator { color: rgba(229, 154, 76, 0.6); }
+
+.beat-pad.active {
+    background: rgba(229, 154, 76, 0.25) !important;
+    border-color: var(--accent-gold) !important;
+    box-shadow: 0 0 12px var(--accent-gold-glow), inset 0 0 6px rgba(229, 154, 76, 0.3) !important;
+}
+
+.beat-pad.active .beat-num, .beat-pad.active .strum-arrow-indicator {
+    color: var(--text-primary) !important;
+    text-shadow: 0 0 6px var(--accent-gold-glow) !important;
+}
+
+.accent-indicator {
+    position: absolute;
+    top: 2px;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    box-shadow: 0 0 4px var(--accent-gold);
+}

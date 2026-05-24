@@ -1,0 +1,52 @@
+/* 1. Theme Variables */
+:root {
+    --bg-darkest: #090808;
+    --bg-darker: #100e0e;
+    --bg-card: #181514;
+    --bg-card-hover: #221d1b;
+    --border-color: rgba(229, 154, 76, 0.12);
+    --border-color-hover: rgba(229, 154, 76, 0.35);
+
+    --accent-gold: #e59a4c;
+    --accent-gold-glow: rgba(229, 154, 76, 0.45);
+    --accent-gold-faint: rgba(229, 154, 76, 0.08);
+    --accent-orange: #d86c27;
+
+    --text-primary: #fcfbfa;
+    --text-secondary: #ad9e97;
+    --text-muted: #615651;
+
+    --color-green: #5ca36a;
+    --color-red: #c2593f;
+
+    --font-ui: 'Outfit', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    --transition-fast: 0.1s ease;
+    --transition-normal: 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 2. Global Reset */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-darkest);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    overflow: hidden;
+    height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-darkest); }
+::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
