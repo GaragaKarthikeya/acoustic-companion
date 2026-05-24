@@ -135,7 +135,6 @@ jobs:
           name: acoustic_companion-${{ steps.get_version.outputs.VERSION }}-${{ matrix.platform }}
           path: ${{ steps.rename_bundles.outputs.RESULT }}/*
           retention-days: 1
-          archive: false # Prevents double-zipping
 
   publish-release:
     needs: build-tauri

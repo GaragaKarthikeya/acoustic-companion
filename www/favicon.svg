@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Definitions for Gradients, Filters and Shadows -->
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bg-grad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#181514" />
+      <stop offset="100%" stop-color="#090808" />
+    </radialGradient>
+    
+    <!-- Metallic Gold Gradient -->
+    <linearGradient id="gold-metallic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcfbfa" />
+      <stop offset="30%" stop-color="#e59a4c" />
+      <stop offset="70%" stop-color="#d86c27" />
+      <stop offset="100%" stop-color="#615651" />
+    </linearGradient>
+
+    <!-- Guitar Pick Gradient -->
+    <linearGradient id="pick-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e59a4c" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#d86c27" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#181514" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Glowing Amber Filter -->
+    <filter id="gold-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="intense-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="blur1" />
+      <feGaussianBlur stdDeviation="5" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Glassmorphic Overlay Gradient -->
+    <linearGradient id="glass-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcfbfa" stop-opacity="0.15" />
+      <stop offset="40%" stop-color="#fcfbfa" stop-opacity="0.02" />
+      <stop offset="100%" stop-color="#d86c27" stop-opacity="0.05" />
+    </linearGradient>
+
+    <!-- Shadow for Depth -->
+    <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.65" />
+    </filter>
+  </defs>
+
+  <!-- Base Card Background with subtle gold border -->
+  <rect width="512" height="512" rx="112" fill="url(#bg-grad)" stroke="rgba(229, 154, 76, 0.15)" stroke-width="6" />
+
+  <!-- Outer ambient glow around the pick -->
+  <circle cx="256" cy="240" r="140" fill="#e59a4c" opacity="0.12" filter="blur(40px)" />
+
+  <!-- Guitar Pick Body with Drop Shadow -->
+  <!-- Pick Path: start at top center, curve out and down, sharp smooth point at bottom, curve back up -->
+  <path d="M 256,90 
+           C 310,90 390,110 395,180 
+           C 400,240 330,330 275,405
+           C 265,418 247,418 237,405
+           C 182,330 112,240 117,180
+           C 122,110 202,90 256,90 Z" 
+        fill="url(#pick-grad)" 
+        stroke="rgba(252, 251, 250, 0.25)" 
+        stroke-width="1.5" 
+        filter="url(#drop-shadow)" />
+
+  <!-- Ambient Glowing Soundhole -->
+  <circle cx="256" cy="210" r="54" fill="#090808" stroke="url(#gold-metallic)" stroke-width="4" filter="url(#gold-glow)" />
+  <circle cx="256" cy="210" r="44" fill="#020101" />
+
+  <!-- Glowing Guitar Strings passing through soundhole and pick -->
+  <!-- 6 Strings with varying positions and gold metallic colors -->
+  <g stroke="url(#gold-metallic)" opacity="0.9">
+    <!-- String 6 (E) -->
+    <line x1="220" y1="120" x2="220" y2="360" stroke-width="3.5" filter="url(#gold-glow)" />
+    <!-- String 5 (A) -->
+    <line x1="234" y1="110" x2="234" y2="375" stroke-width="3.0" />
+    <!-- String 4 (D) -->
+    <line x1="248" y1="105" x2="248" y2="382" stroke-width="2.5" />
+    <!-- String 3 (G) -->
+    <line x1="264" y1="105" x2="264" y2="382" stroke-width="2.2" />
+    <!-- String 2 (B) -->
+    <line x1="278" y1="110" x2="278" y2="375" stroke-width="1.8" />
+    <!-- String 1 (e) -->
+    <line x1="292" y1="120" x2="292" y2="360" stroke-width="1.5" filter="url(#gold-glow)" />
+  </g>
+
+  <!-- Glowing Audio Waveforms curving elegantly around the soundhole -->
+  <path d="M 160,210 C 180,180 200,180 220,210 C 230,225 240,225 250,210 C 260,195 270,195 280,210 C 300,240 320,240 340,210" 
+        fill="none" 
+        stroke="#e59a4c" 
+        stroke-width="3" 
+        stroke-linecap="round"
+        opacity="0.75" 
+        filter="url(#intense-glow)" />
+  
+  <path d="M 140,210 C 170,150 200,150 230,210 C 242,234 254,234 266,210 C 296,150 326,150 356,210" 
+        fill="none" 
+        stroke="#d86c27" 
+        stroke-width="1.5" 
+        stroke-linecap="round"
+        opacity="0.45" />
+
+  <!-- Glassmorphic Shading Overlay on Pick -->
+  <path d="M 256,90 
+           C 310,90 390,110 395,180 
+           C 400,240 330,330 275,405
+           C 265,418 247,418 237,405
+           C 182,330 112,240 117,180
+           C 122,110 202,90 256,90 Z" 
+        fill="url(#glass-grad)" 
+        pointer-events="none" />
+
+  <!-- Highlight Edge to give 3D gloss -->
+  <path d="M 125,180 C 122,130 182,100 256,95" 
+        fill="none" 
+        stroke="#fcfbfa" 
+        stroke-width="3" 
+        stroke-linecap="round"
+        opacity="0.25" />
+</svg>
