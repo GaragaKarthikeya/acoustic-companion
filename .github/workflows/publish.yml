@@ -65,6 +65,7 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_BUNDLER_DMG_IGNORE_CI: ${{ matrix.platform == 'macos-latest' && 'true' || '' }}
         with:
           tagName: v__VERSION__ # tauri-action automatically replaces this with version from tauri.conf.json
           releaseName: 'v__VERSION__'
