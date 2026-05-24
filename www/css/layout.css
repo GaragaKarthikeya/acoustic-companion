@@ -5,7 +5,7 @@
     height: 100vh;
     padding: 10px;
     gap: 10px;
-    background: radial-gradient(circle at 50% 25%, #181412 0%, #070606 80%);
+    background: radial-gradient(circle at 50% 25%, hsl(var(--base-hue), 12%, 11%) 0%, var(--bg-darkest) 85%);
 }
 
 .app-header {

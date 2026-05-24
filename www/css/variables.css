@@ -1,24 +1,41 @@
-/* 1. Theme Variables */
+/* 1. Cohesive, Premium HSL Design Tokens */
 :root {
-    --bg-darkest: #090808;
-    --bg-darker: #100e0e;
-    --bg-card: #181514;
-    --bg-card-hover: #221d1b;
-    --border-color: rgba(229, 154, 76, 0.12);
-    --border-color-hover: rgba(229, 154, 76, 0.35);
+    /* Central Hue Controller: Golden Wood/Amber (24) */
+    --base-hue: 24;
 
-    --accent-gold: #e59a4c;
-    --accent-gold-glow: rgba(229, 154, 76, 0.45);
-    --accent-gold-faint: rgba(229, 154, 76, 0.08);
-    --accent-orange: #d86c27;
+    /* Base Core Colors (HSL-derived for total harmony) */
+    --bg-darkest: hsl(var(--base-hue), 15%, 5.5%);      /* Luxurious deep carbon backing */
+    --bg-darker: hsl(var(--base-hue), 13%, 8%);        /* Sinking panel layer */
+    
+    --bg-card-raw: var(--base-hue), 10%, 13.5%;
+    --bg-card: hsla(var(--bg-card-raw), 0.68);         /* Perfect glassmorphic opacity */
+    --bg-card-hover: hsla(var(--base-hue), 10%, 18%, 0.82);
 
-    --text-primary: #fcfbfa;
-    --text-secondary: #ad9e97;
-    --text-muted: #615651;
+    /* Borders & Accents (Derived directly from Base Accent HSL) */
+    --accent-gold-raw: var(--base-hue), 74%, 60%;
+    --accent-gold: hsl(var(--accent-gold-raw));         /* Vibrant acoustic honey gold */
+    --accent-gold-glow: hsla(var(--accent-gold-raw), 0.45);
+    --accent-gold-faint: hsla(var(--accent-gold-raw), 0.08);
+    --accent-orange: hsl(16, 82%, 52%);                 /* Warm bridge orange */
 
-    --color-green: #5ca36a;
-    --color-red: #c2593f;
+    --border-color: hsla(var(--base-hue), 74%, 60%, 0.12);
+    --border-color-hover: hsla(var(--base-hue), 74%, 60%, 0.35);
 
+    /* Premium Warm Typography (Warm Ivory & Ash instead of stark white/gray) */
+    --text-primary: hsl(var(--base-hue), 20%, 97%);     /* Warm ivory white */
+    --text-secondary: hsl(var(--base-hue), 10%, 72%);   /* Muted warm grey */
+    --text-muted: hsl(var(--base-hue), 8%, 46%);        /* Deep shadow ebony */
+
+    /* Semantic States (Tailored HSL states for a high-end look) */
+    --color-green-raw: 142, 54%, 55%;
+    --color-green: hsl(var(--color-green-raw));         /* Elegant organic sage green */
+    --color-green-glow: hsla(var(--color-green-raw), 0.4);
+    
+    --color-red-raw: 8, 62%, 54%;
+    --color-red: hsl(var(--color-red-raw));             /* Premium rust red */
+    --color-red-glow: hsla(var(--color-red-raw), 0.4);
+
+    /* Fonts & Radiuses */
     --font-ui: 'Outfit', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
@@ -26,8 +43,9 @@
     --radius-md: 8px;
     --radius-lg: 12px;
 
-    --transition-fast: 0.1s ease;
-    --transition-normal: 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Micro-Animations & Physics-Based Transitions */
+    --transition-fast: 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.24s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* 2. Global Reset */
@@ -46,7 +64,17 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: var(--bg-darkest); }
-::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
+::-webkit-scrollbar { 
+    width: 6px; 
+    height: 6px; 
+}
+::-webkit-scrollbar-track { 
+    background: var(--bg-darkest); 
+}
+::-webkit-scrollbar-thumb { 
+    background: var(--text-muted); 
+    border-radius: var(--radius-sm); 
+}
+::-webkit-scrollbar-thumb:hover { 
+    background: var(--accent-gold); 
+}
