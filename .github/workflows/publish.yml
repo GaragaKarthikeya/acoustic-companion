@@ -19,7 +19,7 @@ jobs:
         include:
           - platform: 'macos-latest'
             args: '--target universal-apple-darwin'
-          - platform: 'windows-latest'
+          - platform: 'windows-2025'
             args: ''
           - platform: 'ubuntu-latest'
             args: ''
@@ -31,10 +31,10 @@ jobs:
       RUST_BACKTRACE: 1
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: 'npm' # Automatically caches node_modules in the runner
@@ -79,6 +79,7 @@ jobs:
           ls -la src-tauri/target/release || true
           echo '--- bundle ---'
           ls -la src-tauri/target/release/bundle || true
+        shell: bash
 
       - name: Get version
         id: get_version
@@ -170,7 +171,7 @@ jobs:
 
       - name: Upload renamed artifact
         if: ${{ !startsWith(steps.rename_bundle.outputs.RESULT, 'no-') && !startsWith(steps.rename_bundle.outputs.RESULT, 'error:') }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: acoustic_companion-${{ steps.get_version.outputs.VERSION }}-${{ matrix.platform }}
           path: ${{ steps.rename_bundle.outputs.RESULT }}
