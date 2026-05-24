@@ -17,7 +17,7 @@ If you discover a security vulnerability in this project, please **do not** open
 
 Instead, please report the vulnerability privately by emailing:
 
-**[your email address or private contact method]**
+**garagakarthikeya2007@gmail.com**
 
 In your report, please include:
 * A detailed description of the vulnerability.
