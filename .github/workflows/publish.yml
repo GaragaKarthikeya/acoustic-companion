@@ -19,7 +19,7 @@ jobs:
         include:
           - platform: 'macos-latest'
             args: '--target universal-apple-darwin'
-          - platform: 'windows-latest'
+          - platform: 'windows-2025'
             args: ''
           - platform: 'ubuntu-latest'
             args: ''
@@ -88,90 +88,87 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
         shell: bash
 
-      - name: Normalize bundle name
-        id: rename_bundle
+      - name: Normalize bundle names
+        id: rename_bundles
         run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const path = require('path');
-          const workspace = process.env.GITHUB_WORKSPACE || '.';
-          const version = process.env.VERSION || 'unknown';
-          const runnerOs = process.env.RUNNER_OS || process.env.RUNNER || '';
-          let system = 'unknown';
-          if (/mac/i.test(runnerOs)) system = 'macos-universal';
-          else if (/win/i.test(runnerOs)) system = 'windows-x86_64';
-          else if (/linux/i.test(runnerOs)) system = 'linux-x86_64';
+          set -euo pipefail
+          VERSION="${{ steps.get_version.outputs.VERSION }}"
+          BUNDLE_DIR="src-tauri/target/release/bundle"
+          DIST_DIR="dist"
 
-          const bundleDir = path.join(workspace, 'src-tauri', 'target', 'release', 'bundle');
-          const out = process.env.GITHUB_OUTPUT;
-          if (!fs.existsSync(bundleDir)) {
-            fs.appendFileSync(out, `RESULT=no-bundle-dir:${bundleDir}\n`);
-            console.log('no-bundle-dir:'+bundleDir);
-            process.exit(0);
-          }
-          const entries = fs.readdirSync(bundleDir).filter(e => !e.startsWith('.'));
-          if (entries.length === 0) {
-            fs.appendFileSync(out, `RESULT=no-bundles-found:${bundleDir}\n`);
-            console.log('no-bundles-found:'+bundleDir);
-            process.exit(0);
-          }
+          case "${RUNNER_OS}" in
+            macOS) SYSTEM="macos-universal" ;;
+            Windows) SYSTEM="windows-x86_64" ;;
+            Linux) SYSTEM="linux-x86_64" ;;
+            *) SYSTEM="unknown" ;;
+          esac
 
-          const preferredExts = ['dmg','AppImage','deb','msi','exe','zip','pkg','tar.gz','tar.xz'];
-          let picked = null;
-          for (const e of entries) {
-            const full = path.join(bundleDir, e);
-            const stat = fs.statSync(full);
-            if (stat.isFile()) {
-              const lower = e.toLowerCase();
-              for (const pe of preferredExts) if (lower.endsWith(pe.toLowerCase())) { picked = full; break; }
-              if (picked) break;
-            }
-          }
-          if (!picked) {
-            for (const e of entries) {
-              const full = path.join(bundleDir, e);
-              if (fs.statSync(full).isFile()) { picked = full; break; }
-            }
-          }
-          if (!picked) {
-            for (const e of entries) {
-              const full = path.join(bundleDir, e);
-              if (fs.statSync(full).isDirectory()) { picked = full; break; }
-            }
-          }
-          if (!picked) {
-            fs.appendFileSync(out, `RESULT=no-valid-bundle:${bundleDir}\n`);
-            console.log('no-valid-bundle:'+bundleDir);
-            process.exit(0);
-          }
+          rm -rf "${DIST_DIR}"
+          mkdir -p "${DIST_DIR}"
 
-          const ext = path.extname(picked).replace(/^[.]/, '') || '';
-          const safeExt = ext === '' && fs.statSync(picked).isDirectory() ? '' : `.${ext}`;
-          const newName = `acoustic_companion-${version}-${system}${safeExt}`;
-          const dest = path.join(workspace, newName);
-          try {
-            if (fs.statSync(picked).isFile()) {
-              fs.renameSync(picked, dest);
-              fs.appendFileSync(out, `RESULT=${dest}\n`);
-              console.log('Renamed to '+dest);
-              process.exit(0);
-            } else {
-              fs.appendFileSync(out, `RESULT=${picked}\n`);
-              console.log('Directory bundle at '+picked);
-              process.exit(0);
-            }
-          } catch (err) {
-            fs.appendFileSync(out, `RESULT=error:${err.message}\n`);
-            console.log('error:'+err.message);
-            process.exit(0);
-          }
-        env:
-          VERSION: ${{ steps.get_version.outputs.VERSION }}
+          if [ ! -d "${BUNDLE_DIR}" ]; then
+            echo "RESULT=no-bundle-dir:${BUNDLE_DIR}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          mapfile -t FILES < <(find "${BUNDLE_DIR}" -type f \( \
+            -name "*.dmg" -o -name "*.AppImage" -o -name "*.deb" -o -name "*.rpm" -o -name "*.msi" -o \
+            -name "*setup.exe" -o -name "*.exe" -o -name "*.app.tar.gz" -o -name "*.zip" -o -name "*.pkg" \
+          \))
+
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "RESULT=no-bundles-found:${BUNDLE_DIR}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          for SRC in "${FILES[@]}"; do
+            BASE="$(basename "${SRC}")"
+            EXT=""
+            KIND=""
+
+            case "${BASE}" in
+              *.app.tar.gz)
+                EXT="tar.gz"
+                KIND="updater"
+                ;;
+              *setup.exe)
+                EXT="exe"
+                KIND="setup"
+                ;;
+              *)
+                EXT="${BASE##*.}"
+                KIND="$(echo "${EXT}" | tr '[:upper:]' '[:lower:]')"
+                ;;
+            esac
+
+            DEST="${DIST_DIR}/acoustic_companion-${VERSION}-${SYSTEM}-${KIND}.${EXT}"
+            cp "${SRC}" "${DEST}"
+            echo "Prepared ${DEST}"
+          done
+
+          echo "RESULT=${DIST_DIR}" >> "$GITHUB_OUTPUT"
         shell: bash
 
-      - name: Upload renamed artifact
-        if: ${{ !startsWith(steps.rename_bundle.outputs.RESULT, 'no-') && !startsWith(steps.rename_bundle.outputs.RESULT, 'error:') }}
+      - name: Replace release assets with normalized names
+        if: ${{ !startsWith(steps.rename_bundles.outputs.RESULT, 'no-') && !startsWith(steps.rename_bundles.outputs.RESULT, 'error:') }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="v${{ steps.get_version.outputs.VERSION }}"
+
+          # Remove tauri-action default asset names so release has only normalized names.
+          while IFS= read -r ASSET; do
+            [ -n "${ASSET}" ] || continue
+            gh release delete-asset "${TAG}" "${ASSET}" --yes || true
+          done < <(gh release view "${TAG}" --json assets --jq '.assets[].name')
+
+          gh release upload "${TAG}" dist/* --clobber
+        shell: bash
+
+      - name: Upload normalized artifacts
+        if: ${{ !startsWith(steps.rename_bundles.outputs.RESULT, 'no-') && !startsWith(steps.rename_bundles.outputs.RESULT, 'error:') }}
         uses: actions/upload-artifact@v7
         with:
           name: acoustic_companion-${{ steps.get_version.outputs.VERSION }}-${{ matrix.platform }}
-          path: ${{ steps.rename_bundle.outputs.RESULT }}
+          path: ${{ steps.rename_bundles.outputs.RESULT }}/*
