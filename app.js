@@ -23,7 +23,7 @@ function setupInitOverlay() {
 }
 
 // ─── Bootstrap Dashboard ─────────────────────────────────────────────────────
-document.addEventListener("DOMContentLoaded", () => {
+function bootstrap() {
     // 1. Render all visual components
     drawFretboard();
     renderChordLibrary();
@@ -40,4 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
     setupTunerUI();
     setupPracticeUI();
     setupInitOverlay();
-});
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootstrap);
+} else {
+    bootstrap();
+}
