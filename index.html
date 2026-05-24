@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photograph (Ed Sheeran) - Guitar Learning Dashboard (Yamaha F280)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="header-logo">
+                <i data-lucide="music" class="icon-brand"></i>
+                <div class="brand-text">
+                    <h1>Acoustic Session</h1>
+                    <span class="sub-brand">Yamaha F280 Companion</span>
+                </div>
+            </div>
+
+            <div class="audio-status-container" id="audio-loader">
+                <span id="audio-loading-status">Synth Engine Ready</span>
+                <div class="loading-bar-bg">
+                    <div class="loading-bar-fill" id="audio-loading-progress" style="width: 100%"></div>
+                </div>
+            </div>
+
+            <div class="song-info">
+                <h2>Photograph</h2>
+                <span class="song-artist">Ed Sheeran (Beginner Friendly)</span>
+            </div>
+
+            <div class="setup-badges">
+                <div class="badge capo-badge">
+                    <span class="badge-label">CAPO</span>
+                    <span class="badge-val">2ND FRET</span>
+                </div>
+                <div class="badge key-badge">
+                    <span class="badge-label">KEY</span>
+                    <span class="badge-val">E MAJOR (Play C)</span>
+                </div>
+                <div class="badge tuning-badge">
+                    <span class="badge-label">TUNING</span>
+                    <span class="badge-val">STANDARD</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT GRID -->
+        <main class="app-grid">
+
+            <!-- LEFT PANEL -->
+            <aside class="panel left-panel">
+                <section class="card tuner-card">
+                    <div class="card-header">
+                        <i data-lucide="sliders"></i>
+                        <h3>Yamaha F280 Tuner</h3>
+                        <span class="card-subtitle">Capo 2nd Fret</span>
+                    </div>
+                    <div class="card-body tuner-body">
+                        <div class="tuner-strings">
+                            <button class="tuner-string" data-string="6" data-pitch="F#2">
+                                <span class="string-num">E/6</span>
+                                <span class="string-note">F#</span>
+                            </button>
+                            <button class="tuner-string" data-string="5" data-pitch="B2">
+                                <span class="string-num">A/5</span>
+                                <span class="string-note">B</span>
+                            </button>
+                            <button class="tuner-string" data-string="4" data-pitch="E3">
+                                <span class="string-num">D/4</span>
+                                <span class="string-note">E</span>
+                            </button>
+                            <button class="tuner-string" data-string="3" data-pitch="A3">
+                                <span class="string-num">G/3</span>
+                                <span class="string-note">A</span>
+                            </button>
+                            <button class="tuner-string" data-string="2" data-pitch="C#4">
+                                <span class="string-num">B/2</span>
+                                <span class="string-note">C#</span>
+                            </button>
+                            <button class="tuner-string" data-string="1" data-pitch="F#4">
+                                <span class="string-num">e/1</span>
+                                <span class="string-note">F#</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card chords-card">
+                    <div class="card-header">
+                        <i data-lucide="guitar"></i>
+                        <h3>Chord Library</h3>
+                        <span class="card-subtitle">Click to strum</span>
+                    </div>
+                    <div class="card-body chords-grid" id="chords-library-container"></div>
+                </section>
+            </aside>
+
+            <!-- CENTER PANEL -->
+            <section class="panel center-panel">
+                <div class="card rhythm-card">
+                    <div class="card-header">
+                        <i data-lucide="clock"></i>
+                        <h3>Rhythm Engine</h3>
+                        <span class="card-subtitle">Tempo & Pulse</span>
+                    </div>
+                    <div class="card-body rhythm-body">
+                        <div class="metronome-controls">
+                            <button id="metronome-toggle" class="btn btn-primary btn-round">
+                                <i data-lucide="play" id="metro-play-icon"></i>
+                            </button>
+                            <div class="tempo-slider-container">
+                                <div class="tempo-display">
+                                    <span id="bpm-val">108</span>
+                                    <span class="bpm-unit">BPM</span>
+                                </div>
+                                <input type="range" id="bpm-slider" min="50" max="160" value="108" class="slider">
+                            </div>
+                            <div class="metro-buttons">
+                                <button id="tap-tempo-btn" class="btn btn-secondary btn-sm">
+                                    <i data-lucide="hand"></i> Tap
+                                </button>
+                                <button id="metro-sound-toggle" class="btn btn-icon active">
+                                    <i data-lucide="volume-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="strum-visualizer">
+                            <div class="strum-visualizer-header">
+                                <h4>Pattern: <span id="current-strum-style-title" class="strum-style-highlight">Palm Muted</span></h4>
+                                <span class="strum-desc" id="strumming-tip-text">8 down-picks per bar. Accent on 2nd & 4th "and" beats.</span>
+                            </div>
+                            <div class="beat-grid" id="beat-visual-grid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card riff-card">
+                    <div class="card-header">
+                        <div class="header-left">
+                            <i data-lucide="file-text"></i>
+                            <h3>The Riff</h3>
+                            <span class="card-subtitle">Intro & Verse melody</span>
+                        </div>
+                        <div class="riff-controls">
+                            <button id="riff-play-btn" class="btn btn-secondary btn-sm">
+                                <i data-lucide="play"></i> Play Riff
+                            </button>
+                            <div class="speed-selector">
+                                <button class="btn btn-sm btn-icon active" data-speed="1.0">1x</button>
+                                <button class="btn btn-sm btn-icon" data-speed="0.75">.75</button>
+                                <button class="btn btn-sm btn-icon" data-speed="0.5">.5x</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body riff-body">
+                        <div class="tab-wrapper" id="guitar-tab-container"></div>
+                    </div>
+                </div>
+
+                <div class="card fretboard-card">
+                    <div class="card-header">
+                        <i data-lucide="hash"></i>
+                        <h3>Fretboard Visualizer</h3>
+                        <span class="card-subtitle">Finger placement helper</span>
+                    </div>
+                    <div class="card-body fretboard-body">
+                        <div class="fretboard-neck-container" id="fretboard-neck"></div>
+                        <div class="progression-cheat-sheet" id="cheat-sheet-console">
+                            <div class="sheet-section" data-section-group="verse">
+                                <span class="section-label">Verse / Intro</span>
+                                <div class="section-prog">
+                                    <span class="prog-c" data-chord-name="c">C</span>
+                                    <span class="prog-arrow">→</span>
+                                    <span class="prog-c" data-chord-name="am">Am</span>
+                                    <span class="prog-arrow">→</span>
+                                    <span class="prog-c" data-chord-name="g">G</span>
+                                    <span class="prog-arrow">→</span>
+                                    <span class="prog-c" data-chord-name="f">F</span>
+                                </div>
+                            </div>
+                            <div class="sheet-section" data-section-group="prechorus">
+                                <span class="section-label">Pre-Chorus</span>
+                                <div class="section-prog">
+                                    <span class="prog-c" data-chord-name="am">Am</span>
+                                    <span class="prog-arrow">→</span>
+                                    <span class="prog-c" data-chord-name="f">F</span>
+                                    <span class="prog-arrow">→</span>
+                                    <span class="prog-c" data-chord-name="c">C</span>
+                                    <span class="prog-arrow">→</span>
+                                    <span class="prog-c" data-chord-name="g">G</span>
+                                </div>
+                            </div>
+                            <div class="sheet-section" data-section-group="chorus">
+                                <span class="section-label">Chorus</span>
+                                <div class="section-prog">
+                                    <span class="prog-c" data-chord-name="c">C</span>
+                                    <span class="prog-arrow">→</span>
+                                    <span class="prog-c" data-chord-name="g">G</span>
+                                    <span class="prog-arrow">→</span>
+                                    <span class="prog-c" data-chord-name="am">Am</span>
+                                    <span class="prog-arrow">→</span>
+                                    <span class="prog-c" data-chord-name="f">F</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL -->
+            <section class="panel right-panel">
+                <div class="card lyrics-card">
+                    <div class="card-header lyrics-header">
+                        <div class="header-left">
+                            <i data-lucide="book-open"></i>
+                            <h3>Practice Board</h3>
+                            <span class="card-subtitle" id="scroller-status">Ready to play</span>
+                        </div>
+                        <div class="lyrics-controls">
+                            <button id="practice-mode-toggle" class="btn btn-accent">
+                                <i data-lucide="zap"></i> Start Practice
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sections-navigator">
+                        <button class="nav-section-btn active" data-target="intro">Intro</button>
+                        <button class="nav-section-btn" data-target="verse1">Verse 1</button>
+                        <button class="nav-section-btn" data-target="prechorus1">Pre-Chor 1</button>
+                        <button class="nav-section-btn" data-target="chorus1">Chorus 1</button>
+                        <button class="nav-section-btn" data-target="verse2">Verse 2</button>
+                        <button class="nav-section-btn" data-target="prechorus2">Pre-Chor 2</button>
+                        <button class="nav-section-btn" data-target="chorus2">Chorus 2</button>
+                        <button class="nav-section-btn" data-target="bridge">Bridge</button>
+                        <button class="nav-section-btn" data-target="chorus3">Chorus 3</button>
+                        <button class="nav-section-btn" data-target="outro">Outro</button>
+                    </div>
+
+                    <div class="card-body lyrics-body" id="lyrics-scroller-viewport">
+                        <div class="song-sheet" id="song-sheet-content"></div>
+                    </div>
+
+                    <div class="lyrics-footer">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="practice-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-details">
+                            <span id="active-bar-label">Bar: 0/0</span>
+                            <span id="next-chord-prompt">Up Next: C Chord</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Audio Init Overlay -->
+    <div id="audio-init-overlay" class="overlay">
+        <div class="overlay-content">
+            <div class="guitar-glowing-glow">
+                <i data-lucide="volume-2" class="overlay-icon"></i>
+            </div>
+            <h2>Acoustic Synth Engine</h2>
+            <p>Welcome to your Photograph companion. This app uses a high-quality Karplus-Strong physical modeling synth — no downloads needed.</p>
+            <button id="btn-init-audio" class="btn btn-accent btn-lg">
+                <i data-lucide="volume-2"></i> Enable Sound Engine
+            </button>
+            <p class="overlay-note">Grab your Yamaha F280 and let's go!</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
