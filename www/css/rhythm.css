@@ -43,8 +43,16 @@
 .btn-secondary { background: rgba(255, 255, 255, 0.04); color: var(--text-primary); border: 1px solid rgba(255, 255, 255, 0.06); }
 .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); }
 
-.btn-accent { background: var(--color-green); color: var(--bg-darkest); }
-.btn-accent:hover { background: #73c483; box-shadow: 0 0 12px rgba(92, 163, 106, 0.4); }
+.btn-accent { 
+    background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-orange) 100%); 
+    color: var(--bg-darkest); 
+    box-shadow: 0 4px 12px rgba(229, 154, 76, 0.18);
+}
+.btn-accent:hover { 
+    filter: brightness(1.15); 
+    box-shadow: 0 6px 16px var(--accent-gold-glow); 
+    transform: translateY(-0.8px);
+}
 
 .btn-sm { padding: 3px 8px; font-size: 0.65rem; border-radius: var(--radius-sm); }
 .btn-lg { padding: 10px 20px; font-size: 0.9rem; border-radius: var(--radius-md); }

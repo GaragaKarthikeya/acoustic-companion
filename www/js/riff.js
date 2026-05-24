@@ -116,7 +116,7 @@ export function renderRiffTab() {
     cursor.className = "playback-cursor";
     cursor.id = "tab-playback-cursor";
     cursor.style.display = "none";
-    cursor.style.left = "14px";
+    cursor.style.left = "16px";
     container.appendChild(cursor);
 
     wrapper.appendChild(container);
@@ -176,7 +176,7 @@ function playNextRiffNote() {
         noteSpan.classList.add("playing");
         const cursor = document.getElementById("tab-playback-cursor");
         if (cursor) {
-            cursor.style.left = `${14 + (currentRiffIndex * 3 + 1) * 6.5}px`;
+            cursor.style.left = `${16 + (currentRiffIndex * 3 + 1) * 8.5}px`;
         }
     }
 

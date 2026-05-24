@@ -93,11 +93,11 @@
 .lyrics-line {
     display: flex;
     flex-wrap: wrap;
-    row-gap: 14px;
+    row-gap: 18px;
     column-gap: 3px;
-    line-height: 1.2;
-    margin-bottom: 2px;
-    padding-top: 14px;
+    line-height: 1.25;
+    margin-bottom: 3px;
+    padding-top: 18px;
     position: relative;
     width: 100%;
 }
@@ -110,10 +110,10 @@
 
 .chord-badge {
     position: absolute;
-    top: -14px;
+    top: -16px;
     left: 0;
     font-family: var(--font-mono);
-    font-size: 0.58rem;
+    font-size: 0.68rem;
     font-weight: 800;
     color: var(--accent-gold);
     cursor: pointer;
@@ -121,9 +121,9 @@
     background: rgba(229, 154, 76, 0.08);
     border: 1px solid rgba(229, 154, 76, 0.25);
     border-radius: 3px;
-    padding: 0 3px;
-    height: 12px;
-    line-height: 10px;
+    padding: 0 4px;
+    height: 14px;
+    line-height: 12px;
     white-space: nowrap;
     z-index: 5;
     transition: all var(--transition-fast);
@@ -153,7 +153,7 @@
 }
 
 .lyric-text {
-    font-size: 0.78rem;
+    font-size: 0.94rem;
     font-weight: 500;
     color: var(--text-primary);
     white-space: pre;
@@ -162,7 +162,7 @@
 .lyrics-line.instrumental {
     font-style: italic;
     color: var(--text-secondary);
-    font-size: 0.72rem;
+    font-size: 0.85rem;
 }
 
 /* Chord Tooltip */
