@@ -132,3 +132,28 @@ $$\text{acoustic\_companion}-\{\text{version}\}-\{\text{system}\}-\{\text{kind}\
    git push origin v0.1.1
    ```
 4. Check your repository's **Actions** tab to watch the build runners compile. Once finished, check the **Releases** tab to publish the pre-packaged draft.
+
+---
+
+## 5. Build Compatibility: npm build vs. tauri build
+
+While a frontend project that compiles successfully with standard web builds (e.g., `npm run build` or Vite/Webpack pipelines) will **mostly** run without issues inside a Tauri wrapper, there are three critical edge cases that developers must account for:
+
+### 1. Absolute vs. Relative Paths (The Blank Screen Pitfall)
+* **Web Behavior**: Browsers on standard domains allow absolute resource paths (e.g., `/css/style.css` or `/js/app.js`) because they resolve relative to the host domain root (`https://domain.com`).
+* **Tauri Behavior**: Tauri serves assets locally through custom system protocols (`tauri://localhost` or local IPC loops) rather than standard domains. If absolute paths are used, the host operating system's WebView engine will attempt to locate files at the root of the OS filesystem (e.g., `C:\css\style.css` on Windows), resulting in immediate 404 asset loading failures and a **blank white screen**.
+* **Best Practice**: Always configure your frontend packagers and asset imports to use **relative paths** (e.g., `./css/style.css`). In bundlers like Vite, this is achieved by setting `base: './'` or `base: ''` in `vite.config.js`.
+
+### 2. Cross-Origin Resource Sharing (CORS) & External APIs
+* **Web Behavior**: Browsers allow asynchronous `fetch` requests to third-party endpoints if the external server's HTTP response headers explicitly include your domain origin in their `Access-Control-Allow-Origin` values.
+* **Tauri Behavior**: Because Tauri applications run under custom, non-standard local protocols (`tauri://localhost` or system loop origins), external servers may reject requests because the origin is unrecognizable or considered untrusted.
+* **Best Practice**: You must configure third-party APIs to explicitly allow your Tauri system loop origin, or utilize **Tauri's native HTTP Client Plugin** (`tauri-plugin-http`) in the Rust backend. This plugin bypasses browser-level sandboxed CORS restrictions completely by performing requests in the native system shell.
+
+### 3. Native Compilers & Rust Errors
+* **Web Behavior**: Standard web build scripts only check for syntax issues, bundle sizes, and asset loading.
+* **Tauri Behavior**: A production compilation (`npx tauri build`) triggers a **native binary build** using the local Rust compiler (`rustc`) and native platform SDK tools (MSVC on Windows, Xcode on macOS, or WebKitGTK/Debian headers on Linux). 
+* **Best Practice**: If a Tauri build fails even though the frontend built successfully, check:
+  * That your system developer tools are completely installed (Visual Studio C++ Build Tools on Windows, Xcode Command Line Tools on macOS, or `libwebkit2gtk-4.1-dev` and build-essential on Linux).
+  * That `"frontendDist"` in `src-tauri/tauri.conf.json` points to the exact relative path of the compiled frontend assets folder (e.g., `"../www"` or `"../dist"`).
+  * That the native Rust code (`main.rs` and `lib.rs`) and backend plugins contain no Rust compiler errors.
+
