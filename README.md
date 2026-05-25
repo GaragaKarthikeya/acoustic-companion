@@ -2,7 +2,7 @@
 
 Acoustic Companion is a high-performance native desktop application designed for learning and practicing Ed Sheeran's *"Photograph"* on the guitar. Optimized specifically for standard 1080p FHD displays, the application bundles an interactive guitar tuner, chord library, rhythm metronome scheduler, horizontal tab scroller player, and a scroll-synchronized lyrics sheet in an elegant, glassmorphic layout.
 
-Powered by a native Rust backend and Webview2 frontend utilizing Tauri v2, the application runs with an extremely low memory footprint of just **3.4 MB of RAM**.
+Powered by a native Rust backend and Webview2 frontend utilizing Tauri v2, the application avoids bundling a Chromium runtime and keeps the production runtime lightweight.
 
 ---
 
@@ -79,7 +79,7 @@ Rather than loading heavy audio samples, the companion generates sound waves in 
 ### 3. Tauri Desktop Wrapper
 Integrated with a lightweight Rust backend using Tauri v2:
 * **Zero CORS Issues**: ES modules are loaded locally using native system protocols, bypassing browser security blocks that standard `file://` protocols encounter.
-* **Low Memory Footprint**: Bypasses heavy Chromium runtime overheads (e.g. Electron) by leveraging Webview2 (Windows Edge engine), running in under 4 MB of RAM.
+* **Low Runtime Overhead**: Bypasses heavy bundled Chromium runtime overheads (e.g. Electron) by leveraging the host WebView engine. Exact memory usage should be measured per platform and build mode.
 
 ---
 
@@ -119,9 +119,10 @@ acoustic-companion/
 │   ├── Cargo.toml             # Rust dependencies and builds
 │   └── tauri.conf.json        # Tauri workspace properties
 ├── docs/                      # Technical Documentation deep-dives
-│   ├── architecture.md        # ESM structure, Tauri config, and Security Hardening (Prototype validation, Reflect API)
-│   ├── audio_synthesis.md     # Waveguide math equations, DSP routing, and Reflect-based buffer performance
+│   ├── architecture.md        # ESM structure, Tauri config, security posture, and timing model
+│   ├── audio_synthesis.md     # Waveguide math equations, DSP routing, and buffer performance
 │   ├── tuner_and_practice.md  # Precision scheduler, tap tempo math, practice loop
+│   ├── verification.md        # Local smoke checks and release verification steps
 │   ├── contributing.md        # Actions release pipelines and Vercel cloud mirrors
 │   └── ui_consistency_guide.md # UI Consistency & Design System Guide (variables, HSL)
 ├── README.md                  # Project documentation
@@ -152,6 +153,16 @@ npm run build
 Compiled setups will be outputted under:
 * **NSIS Setup Installer**: `src-tauri/target/release/bundle/nsis/acoustic_companion_0.1.0_x64-setup.exe`
 * **Enterprise MSI Installer**: `src-tauri/target/release/bundle/msi/acoustic_companion_0.1.0_x64_en-US.msi`
+
+### Verification
+Before shipping changes, run the smoke checks in `docs/verification.md`. At minimum, confirm the app opens, audio initializes after the setup overlay click, tuner plucks sound at normal pitch, riff playback keeps tempo, and Practice Mode advances bars on the metronome clock.
+
+### Troubleshooting
+* **`npm run build` cannot find `npm-cli.js`**: repair or reinstall Node/npm, then rerun `npm ci`.
+* **Blank desktop window**: check that asset paths are relative and that `frontendDist` in `src-tauri/tauri.conf.json` points to `../www`.
+* **No audio until clicking the overlay**: expected browser behavior. Web Audio starts only after a user gesture.
+* **Windows build fails at native compilation**: install Visual Studio C++ Build Tools and WebView2 Runtime.
+* **Linux build fails on WebKitGTK**: install the packages listed in `docs/contributing.md`.
 
 ## Cloud Hosting & Deployment
 

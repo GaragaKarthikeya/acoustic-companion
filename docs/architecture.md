@@ -38,6 +38,7 @@ acoustic-companion/
 │   ├── architecture.md        # Technical architecture, ESM loading, Tauri config
 │   ├── audio_synthesis.md     # Mathematical synthesis equations & node routing
 │   ├── tuner_and_practice.md  # Precision scheduler, tap tempo math, practice loop
+│   ├── verification.md        # Local smoke checks and release verification steps
 │   ├── contributing.md        # Multi-platform Actions build, environment, Vercel
 │   └── ui_consistency_guide.md # UI Consistency & Design System Guide (variables, HSL)
 └── src-tauri/                 # Native systems compilation files
@@ -115,7 +116,7 @@ Upon entering `bootstrap()`, the following components are initialized sequential
 Tauri serves as a secure, high-performance desktop bridge for the application, compiling the static `/www` directory into a native executables bundle:
 
 * **WebView2 Integration**: Relies on the host operating system's native WebView engine (Microsoft WebView2/Edge on Windows, WebKit on macOS, WebKitGTK on Linux), completely avoiding the heavy Chromium process overhead typical of Electron-style wrappers.
-* **Low Memory Footprint**: Bypasses the need for background packaging or Node runtimes, executing in under **4 MB of active RAM**.
+* **Low Runtime Overhead**: Bypasses bundled Chromium and a production Node runtime by using the host WebView engine. Any exact memory footprint should be measured per platform and build mode before being used in release notes.
 * **Zero CORS Local ESM Loading**: Modern browsers block standard ES module relative imports when loaded via the `file://` protocol due to Cross-Origin Resource Sharing (CORS) security restrictions. Tauri solves this by serving the static `/www` assets directly through a local system loop (`tauri://localhost` or native IPC protocols), providing full compatibility with ESM without requiring local bundlers or web servers during development.
 * **Maximized Display Configuration**: `tauri.conf.json` defines window behaviors to launch the application maximized, ensuring optimal 1080p layout alignments out-of-the-box:
   ```json
@@ -167,7 +168,7 @@ This serialization bridge introduces microsecond delays and raises garbage colle
 Instead:
 * **Audio on Frontend**: The entire physical modeling buffer generation and filter routing executes directly on the browser's high-speed Web Audio thread.
 * **Pure Container Backend**: The Rust backend (`lib.rs`) defines **zero** custom `.invoke_handler()` commands. Rust operates purely as an asset server and OS window shell container.
-* **Low Memory Result**: By bypassing IPC JSON serialization, we avoid CPU thread blocking, maintain perfectly precise metronome beats, and keep active RAM under **3.4 MB**.
+* **Operational Result**: By bypassing IPC JSON serialization in the timing path, the app keeps metronome scheduling and audio synthesis in one frontend runtime and avoids backend round trips during playback.
 
 ---
 
@@ -194,6 +195,8 @@ Key visual mappings (such as the string labels and the track grid lines in `riff
 * **Predictable Iteration**: Maintains exact insertion order for rendering horizontal lines.
 * **Access Efficiency**: Provides native O(1) time complexity search, insertion, and deletion.
 
-### 3. Safe High-Frequency Array Access
-Float32Array audio wave buffers are computed at high speed in real-time. The synthesis loop avoids standard bracket notations in favor of `Reflect.get()` and `Reflect.set()`. This establishes standard compiler paths for the V8/Edge JIT optimizer, avoiding unexpected garbage collection spikes and ensuring a solid 44.1kHz audio stream.
+### 3. High-Frequency Typed-Array Access
+Float32Array audio wave buffers are computed synchronously before each pluck is scheduled. The synthesis loop uses direct typed-array indexing (`data[i]`) because it is the simplest and fastest path for per-sample reads and writes. Do not replace this hot path with `Reflect.get()` or `Reflect.set()`; doing so adds overhead and can make riff playback feel slower by delaying timer callbacks.
 
+### 4. Tauri Security Posture
+The native wrapper currently grants only Tauri's default core permissions in `src-tauri/capabilities/default.json`, and the Rust backend defines no custom `invoke_handler()` commands. The app configuration sets `"csp": null` in `src-tauri/tauri.conf.json`, which is permissive. That is acceptable only while the frontend is fully local and dependency-free; if remote assets, external APIs, or user-generated HTML are introduced, add an explicit Content Security Policy before release.

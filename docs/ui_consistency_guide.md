@@ -48,10 +48,10 @@ graph TD
 
 ## 3. The 3-Tier Consistency Plan
 
-### Tier 1: Strict Token Enforcement (CSS Variables)
-Every custom stylesheet (`tuner.css`, `rhythm.css`, etc.) **must** resolve properties to variables defined in `variables.css`. 
+### Tier 1: Token-First Styling (CSS Variables)
+Custom stylesheets (`tuner.css`, `rhythm.css`, etc.) should prefer variables defined in `variables.css` for reusable colors, spacing, typography, shadows, and transitions.
 
-* **The Core Rule**: **Never** write raw hex/RGB colors, pixel sizes, or custom transition times in modular stylesheets.
+* **The Core Rule**: Avoid raw hex/RGB colors, pixel sizes, or custom transition times when the value represents a reusable design decision. Local geometry values, SVG coordinates, and one-off visual tuning values are acceptable when they are easier to inspect than a token.
 
 #### 1. Hue-Relative Color System (HSL)
 We use a central base hue controller (e.g., `24` for golden wood/amber) to generate perfectly harmonized semantic states:
@@ -86,7 +86,7 @@ We use a central base hue controller (e.g., `24` for golden wood/amber) to gener
 ```
 
 #### 2. Spacing and Radius Scales
-Grid and flex alignments must use standard increments to ensure vertical and horizontal lines align:
+Grid and flex alignments should use standard increments where practical to keep vertical and horizontal lines aligned:
 ```css
 :root {
     /* Padding & Spacing Levels */
@@ -206,9 +206,8 @@ export function createSlider({ id, min, max, initial, label, onChange }) {
 
 Before committing a new feature or stylesheet, cross-check against these guidelines:
 
-* [ ] **No Hardcoded Colors**: Colors resolve to direct HSL tokens (`var(--bg-darkest)`, `var(--bg-card)`, `var(--accent-gold)`, etc.).
-* [ ] **No Hardcoded Spacing**: Dimensions use the standardized level-based spacing scale (`var(--space-level-md)`, etc.).
+* [ ] **Tokenized Reusable Colors**: Repeated colors resolve to direct HSL tokens (`var(--bg-darkest)`, `var(--bg-card)`, `var(--accent-gold)`, etc.).
+* [ ] **Tokenized Reusable Spacing**: Repeated dimensions use the standardized level-based spacing scale (`var(--space-level-md)`, etc.).
 * [ ] **Consistent Font Scales**: Typography uses matching weights and font sizes from the hierarchy levels (`var(--font-level-sm)`, `var(--font-level-md)`, etc.).
 * [ ] **Consistent Transitions**: Any hover or click animations use standard transitions (`var(--transition-fast)` or `var(--transition-normal)`).
 * [ ] **Container Isolation**: Element alignments rely on standard layout grid structures and glassmorphic panels (`layout.css`) rather than arbitrary margins or absolute positionings.
-
