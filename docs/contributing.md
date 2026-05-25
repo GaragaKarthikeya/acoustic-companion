@@ -36,7 +36,7 @@ To establish a local compiling and debugging environment, ensure the following s
 
 ## 2. Developer Build & Run Commands
 
-The root `package.json` maps CLI scripts to compile and launch Tauri's native rust engine, WebView viewports, and automated documentation/git-hook tooling:
+The root `package.json` maps CLI scripts to compile and launch Tauri's native rust engine and WebView viewports:
 
 ```bash
 # Launch a development viewport with Hot Module Replacement (HMR) and Rust debug logging
@@ -44,12 +44,6 @@ npm run dev
 
 # Compile optimized release builds and bundle installer files
 npm run build
-
-# Register git hooks to autonomously analyze staged changes and update docs upon committing
-npm run hooks:install
-
-# Manually trigger the Antigravity autonomous documentation updates
-npm run docs:update
 ```
 
 Upon executing `npm run build`, the native Rust compilations are cached under `src-tauri/target/release/` and packaged into standard platforms setups:
@@ -58,13 +52,6 @@ Upon executing `npm run build`, the native Rust compilations are cached under `s
   * **Enterprise MSI Installer**: `src-tauri/target/release/bundle/msi/acoustic_companion_0.1.0_x64_en-US.msi`
 * **macOS setups**: Compiled as standard Apple Disk Image `.dmg` wrappers or universal `.app.tar.gz` packages.
 * **Linux setups**: Compiled as standard Debian `.deb` packages or AppImage wrappers.
-
-### 3. Autonomous Documentation & Git Pre-Commit Hooks
-Acoustic Companion includes an autonomous documentation synchronization pipeline powered by **Antigravity auto-doc**:
-* **Git Pre-Commit Hook**: By running `npm run hooks:install`, a native shell script `pre-commit` is registered under `.git/hooks/`. On every `git commit`, the hook runs the `docs:update` task to scan all staged source code changes, analyze their architectural, physical synthesis, and visual implications, and autonomously modify the deep-dive guides under `docs/` and `README.md` to ensure they are synchronized with the code.
-* **Manual Updates**: Run `npm run docs:update` to invoke the documentation agent manually without staging a commit.
-
----
 
 ## 3. Cloud Deployment (Vercel)
 
