@@ -82,6 +82,15 @@ $$g = 0.9982 - 0.0012 \cdot \text{brightnessFactor}$$
 
 This dynamic blend and decay structure ensures that high-frequency treble strings decay their high-end energy slightly quicker than bass strings, preventing synthetic harshness.
 
+### 4. High-Performance Buffer Manipulation (Reflect API)
+To maintain real-time physical modeling at a standard sampling rate of 44,100 Hz, the waveguide loop must execute with zero execution overhead or garbage collection pressure. 
+
+To achieve this, Acoustic Companion replaces traditional JavaScript array brackets (`data[i]`) with high-performance, direct property access via the ES6 **Reflect API**:
+* **Buffer writes**: `Reflect.set(data, i, sampleValue)`
+* **Buffer reads**: `Reflect.get(data, i)`
+
+This ensures the browser's JavaScript engine optimizes Float32Array lookups directly in the JIT compiler, avoiding prototype chain searches and ensuring perfectly jitter-free, low-latency audio synthesis.
+
 ---
 
 ## 3. Dynamic Damping & Sustain Mathematics

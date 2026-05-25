@@ -54,19 +54,34 @@ Every custom stylesheet (`tuner.css`, `rhythm.css`, etc.) **must** resolve prope
 * **The Core Rule**: **Never** write raw hex/RGB colors, pixel sizes, or custom transition times in modular stylesheets.
 
 #### 1. Hue-Relative Color System (HSL)
-We use a base hue color (e.g. `24` for standard wooden warmth) to generate harmonized semantic states:
+We use a central base hue controller (e.g., `24` for golden wood/amber) to generate perfectly harmonized semantic states:
 ```css
 :root {
-  --base-hue: 24; /* Changes the entire app tint if adjusted */
-  
-  /* Semantic Palettes */
-  --color-bg: hsl(var(--base-hue), 15%, 8%);
-  --color-surface: hsla(var(--base-hue), 12%, 14%, 0.45);
-  --color-accent: hsl(var(--base-hue), 72%, 60%);
-  --color-green: hsl(142, 68%, 52%);
-  --color-amber: hsl(38, 92%, 50%);
-  --color-text-primary: hsl(var(--base-hue), 10%, 94%);
-  --color-text-secondary: hsl(var(--base-hue), 8%, 68%);
+    /* Central Hue Controller: Golden Wood/Amber (24) */
+    --base-hue: 24;
+
+    /* Base Core Colors (HSL-derived for total harmony) */
+    --bg-darkest: hsl(var(--base-hue), 15%, 5.5%);      /* Luxurious deep carbon backing */
+    --bg-darker: hsl(var(--base-hue), 13%, 8%);        /* Sinking panel layer */
+    
+    --bg-card-raw: var(--base-hue), 10%, 13.5%;
+    --bg-card: hsla(var(--bg-card-raw), 0.68);         /* Perfect glassmorphic opacity */
+    --bg-card-hover: hsla(var(--base-hue), 10%, 18%, 0.82);
+
+    /* Borders & Accents (Derived directly from Base Accent HSL) */
+    --accent-gold-raw: var(--base-hue), 74%, 60%;
+    --accent-gold: hsl(var(--accent-gold-raw));         /* Vibrant acoustic honey gold */
+    --accent-gold-glow: hsla(var(--accent-gold-raw), 0.45);
+    --accent-gold-faint: hsla(var(--accent-gold-raw), 0.08);
+    --accent-orange: hsl(16, 82%, 52%);                 /* Warm bridge orange */
+
+    --border-color: hsla(var(--base-hue), 74%, 60%, 0.12);
+    --border-color-hover: hsla(var(--base-hue), 74%, 60%, 0.35);
+
+    /* Premium Warm Typography (Warm Ivory & Ash instead of stark white/gray) */
+    --text-primary: hsl(var(--base-hue), 20%, 97%);     /* Warm ivory white */
+    --text-secondary: hsl(var(--base-hue), 10%, 72%);   /* Muted warm grey */
+    --text-muted: hsl(var(--base-hue), 8%, 46%);        /* Deep shadow ebony */
 }
 ```
 
@@ -74,64 +89,77 @@ We use a base hue color (e.g. `24` for standard wooden warmth) to generate harmo
 Grid and flex alignments must use standard increments to ensure vertical and horizontal lines align:
 ```css
 :root {
-  --space-xs: 0.25rem;  /* 4px */
-  --space-sm: 0.5rem;   /* 8px */
-  --space-md: 1.0rem;   /* 16px */
-  --space-lg: 1.5rem;   /* 24px */
-  --space-xl: 2.0rem;   /* 32px */
-  
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-full: 9999px;
+    /* Padding & Spacing Levels */
+    --space-level-xs: 4px;
+    --space-level-sm: 8px;
+    --space-level-md: 12px;
+    --space-level-lg: 16px;
+    --space-level-xl: 24px;
+
+    /* Border Radius Levels */
+    --radius-level-sm: 4px;
+    --radius-level-md: 8px;
+    --radius-level-lg: 12px;
+    --radius-level-xl: 16px;
+    --radius-level-full: 9999px;
 }
 ```
 
 ---
 
 ### Tier 2: Glassmorphism & Reusable Component Classes
-Rather than styling buttons and sliders uniquely in every component view, we create generic CSS component definitions under a unified sheet (e.g. creating/maintaining a `components.css` or grouping them in `layout.css`).
+Rather than styling buttons and sliders uniquely in every component view, we create generic CSS component definitions under a unified sheet (e.g., `layout.css`).
 
 #### 1. Reusable Glassmorphism Panel
 ```css
 .glass-panel {
-  background: var(--color-surface);
-  backdrop-filter: blur(16px) saturate(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
-  border: 1px solid hsla(var(--base-hue), 100%, 100%, 0.05);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-  border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-level-md);
+    border-radius: var(--radius-level-lg);
+    transition: var(--transition-normal);
+}
+
+.glass-panel:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-color-hover);
+    box-shadow: var(--shadow-level-lg);
 }
 ```
 
-#### 2. Reusable Buttons
+#### 2. Reusable Buttons & Gradients
 ```css
 .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-level-sm);
+    padding: var(--space-level-sm) var(--space-level-lg);
+    border-radius: var(--radius-level-md);
+    font-weight: 600;
+    transition: var(--transition-fast);
+    cursor: pointer;
 }
 
+/* Premium Gold-to-Amber Honey Gradient Button */
 .btn-accent {
-  background: var(--color-accent);
-  color: var(--color-bg);
-  border: none;
+    background: linear-gradient(135deg, var(--accent-gold), hsl(var(--accent-gold-raw), 0.85));
+    color: var(--bg-darkest);
+    border: none;
+    box-shadow: var(--glow-level-gold);
 }
 
 .btn-accent:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: var(--glow-level-gold-heavy);
 }
 
 .btn-secondary {
-  background: transparent;
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-text-secondary);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
 }
 ```
 
@@ -178,8 +206,9 @@ export function createSlider({ id, min, max, initial, label, onChange }) {
 
 Before committing a new feature or stylesheet, cross-check against these guidelines:
 
-* [ ] **No Hardcoded Colors**: Colors resolve to HSL variables (`var(--color-bg)`, etc.).
-* [ ] **No Hardcoded Spacing**: Dimensions use the `rem` spacing scale (`var(--space-md)`, etc.).
-* [ ] **Consistent Font Scales**: Typography uses matching weights (`font-weight: 600`, etc.) and sizes.
-* [ ] **Consistent Transitions**: Any hover or click animations use the standardized easing duration (`transition: 0.2s cubic-bezier(...)`).
-* [ ] **Container Isolation**: Element alignments rely on standard layout grid structures (`layout.css`) rather than arbitrary negative margins.
+* [ ] **No Hardcoded Colors**: Colors resolve to direct HSL tokens (`var(--bg-darkest)`, `var(--bg-card)`, `var(--accent-gold)`, etc.).
+* [ ] **No Hardcoded Spacing**: Dimensions use the standardized level-based spacing scale (`var(--space-level-md)`, etc.).
+* [ ] **Consistent Font Scales**: Typography uses matching weights and font sizes from the hierarchy levels (`var(--font-level-sm)`, `var(--font-level-md)`, etc.).
+* [ ] **Consistent Transitions**: Any hover or click animations use standard transitions (`var(--transition-fast)` or `var(--transition-normal)`).
+* [ ] **Container Isolation**: Element alignments rely on standard layout grid structures and glassmorphic panels (`layout.css`) rather than arbitrary margins or absolute positionings.
+

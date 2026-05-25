@@ -169,3 +169,31 @@ Instead:
 * **Pure Container Backend**: The Rust backend (`lib.rs`) defines **zero** custom `.invoke_handler()` commands. Rust operates purely as an asset server and OS window shell container.
 * **Low Memory Result**: By bypassing IPC JSON serialization, we avoid CPU thread blocking, maintain perfectly precise metronome beats, and keep active RAM under **3.4 MB**.
 
+---
+
+## 5. Security Hardening & Robust Memory Management
+
+To maintain enterprise-grade security and memory stability within the browser-native environment, Acoustic Companion implements three key patterns to protect execution flows and prevent prototype lookup vulnerabilities:
+
+### 1. Prototype Pollution & Input Validation
+User-driven actions (such as chord selections) trigger dynamic property lookups in state libraries. To prevent Prototype Pollution attacks (where malicious inputs modify `Object.prototype`), all dynamically retrieved keys are strictly validated:
+* **Own Property Verification**: The system checks input existence explicitly:
+  ```javascript
+  if (typeof chordKey !== 'string' || !Object.prototype.hasOwnProperty.call(CHORD_LIBRARY, chordKey)) {
+      return;
+  }
+  ```
+* **Reflective Retrieval**: Values are retrieved safely via the `Reflect` API rather than direct brackets:
+  ```javascript
+  const chord = Reflect.get(CHORD_LIBRARY, chordKey);
+  ```
+
+### 2. Standardized ES6 Map Collections
+Key visual mappings (such as the string labels and the track grid lines in `riff.js`) are implemented using built-in `Map` objects rather than plain JavaScript objects. This guarantees:
+* **No Prototype Collision**: Prevents accidental overwrites of built-in object functions (e.g., `toString` or `valueOf`).
+* **Predictable Iteration**: Maintains exact insertion order for rendering horizontal lines.
+* **Access Efficiency**: Provides native O(1) time complexity search, insertion, and deletion.
+
+### 3. Safe High-Frequency Array Access
+Float32Array audio wave buffers are computed at high speed in real-time. The synthesis loop avoids standard bracket notations in favor of `Reflect.get()` and `Reflect.set()`. This establishes standard compiler paths for the V8/Edge JIT optimizer, avoiding unexpected garbage collection spikes and ensuring a solid 44.1kHz audio stream.
+

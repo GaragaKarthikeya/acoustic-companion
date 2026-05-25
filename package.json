@@ -6,7 +6,9 @@
   "scripts": {
     "tauri": "tauri",
     "dev": "tauri dev",
-    "build": "tauri build"
+    "build": "tauri build",
+    "docs:update": "agy --print \"Run /auto-doc\" --dangerously-skip-permissions",
+    "hooks:install": "node scripts/install-hooks.js"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.11.2"

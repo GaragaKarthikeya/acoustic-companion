@@ -149,7 +149,33 @@ Once the target string index $S$ is identified:
        25% { transform: translateY(-0.8px); }
        75% { transform: translateY(0.8px); }
        100% { transform: translateY(0); }
-   }
-   ```
+    }
+    ```
 3. A `setTimeout` removes the class after exactly **150ms** to return the string to a stable resting state.
 
+---
+
+## 5. Riff Melody Scheduler & Speed Multiplier Math
+
+The Riff Melody engine (`riff.js`) provides an autonomous playback mode for fingerstyle sequence practice. The timing of each played note is calculated dynamically relative to the master BPM and a user-selected speed multiplier.
+
+### 1. Eighth Note Duration Calculations
+Riff sequences are built on discrete eighth-note intervals. The baseline duration of a single eighth-note unit ($t_{\text{eighth}}$) is calculated from the master tempo in Beats Per Minute ($\text{BPM}$):
+
+$$t_{\text{quarter}} = \frac{60,000}{\text{BPM}}\text{ ms}$$
+
+$$t_{\text{eighth}} = 0.5 \cdot t_{\text{quarter}} = \frac{30,000}{\text{BPM}}\text{ ms}$$
+
+### 2. Speed-Scaled Interval Scheduling
+Each note in the sequence carries a duration coefficient ($\text{len}$) that represents the number of eighth-note slots it occupies (typically $1$ for standard eighth notes). When scaled by a play speed multiplier ($S_{\text{multiplier}}$), the exact playback delay ($t_{\text{delay}}$) until the next note is scheduled as:
+
+$$t_{\text{delay}} = \frac{t_{\text{eighth}} \cdot \text{len}}{S_{\text{multiplier}}} = \frac{30,000 \cdot \text{len}}{\text{BPM} \cdot S_{\text{multiplier}}}\text{ ms}$$
+
+This formula guarantees that adjustments to either tempo or speed scale linearly and maintain correct rhythmic ratios across all notes.
+
+### 3. Dynamic Visual Cursor Mapping
+As the scheduler cycles through the sequence, a visual cursor highlights the active tab note character. Because each note representation in the tab string occupies exactly 3 characters (one note character and two hyphens/spaces), the horizontal pixel position ($\text{Offset}_{\text{left}}$) of the cursor is mapped via the current riff note index ($i_{\text{riff}}$):
+
+$$\text{Offset}_{\text{left}} = 16 + (3 \cdot i_{\text{riff}} + 1) \cdot 8.5\text{ px}$$
+
+This coordinate system synchronizes the playback head with the rendered monospaced tab characters in the viewport, preventing cursor drift.

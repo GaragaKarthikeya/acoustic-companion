@@ -118,11 +118,13 @@ acoustic-companion/
 │   │   └── lib.rs             # Tauri application setups
 │   ├── Cargo.toml             # Rust dependencies and builds
 │   └── tauri.conf.json        # Tauri workspace properties
+├── scripts/
+│   └── install-hooks.js       # Git hooks and autonomous documentation installation utility
 ├── docs/                      # Technical Documentation deep-dives
-│   ├── architecture.md        # Technical architecture, ESM loading, Tauri config
-│   ├── audio_synthesis.md     # Mathematical synthesis equations & node routing
+│   ├── architecture.md        # ESM structure, Tauri config, and Security Hardening (Prototype validation, Reflect API)
+│   ├── audio_synthesis.md     # Waveguide math equations, DSP routing, and Reflect-based buffer performance
 │   ├── tuner_and_practice.md  # Precision scheduler, tap tempo math, practice loop
-│   ├── contributing.md        # Multi-platform Actions build, environment, Vercel
+│   ├── contributing.md        # Actions release pipelines, Vercel cloud mirrors, and Git Pre-Commit hooks
 │   └── ui_consistency_guide.md # UI Consistency & Design System Guide (variables, HSL)
 ├── README.md                  # Project documentation
 ├── CODE_OF_CONDUCT.md         # Contributor guidelines
@@ -152,6 +154,18 @@ npm run build
 Compiled setups will be outputted under:
 * **NSIS Setup Installer**: `src-tauri/target/release/bundle/nsis/acoustic_companion_0.1.0_x64-setup.exe`
 * **Enterprise MSI Installer**: `src-tauri/target/release/bundle/msi/acoustic_companion_0.1.0_x64_en-US.msi`
+
+### Git Hooks & Autonomous Documentation
+To keep the codebase and documentation synchronized during development:
+* **Install Git Pre-Commit Hook**:
+  ```bash
+  npm run hooks:install
+  ```
+  This registers a pre-commit hook that automatically runs `docs:update` on staged files before every commit.
+* **Manual Documentation Update**:
+  ```bash
+  npm run docs:update
+  ```
 
 ---
 
