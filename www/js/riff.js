@@ -56,17 +56,29 @@ export function renderRiffTab() {
     container.className = "tab-track-container";
 
     const STRINGS = [1, 2, 3, 4, 5, 6];
-    const LABELS = { 1: "e|", 2: "B|", 3: "G|", 4: "D|", 5: "A|", 6: "E|" };
+    const LABELS = new Map([
+        [1, "e|"],
+        [2, "B|"],
+        [3, "G|"],
+        [4, "D|"],
+        [5, "A|"],
+        [6, "E|"]
+    ]);
     const totalSlots = RIFF_SEQUENCE.length * 3;
-    const linesData = {};
+    const linesData = new Map();
 
     STRINGS.forEach(s => {
-        linesData[s] = [];
-        for (let i = 0; i < totalSlots; i++) linesData[s].push("-");
+        linesData.set(s, []);
+        for (let i = 0; i < totalSlots; i++) {
+            linesData.get(s).push("-");
+        }
     });
 
     RIFF_SEQUENCE.forEach((note, idx) => {
-        linesData[note.string][idx * 3 + 1] = note.fret.toString();
+        const stringLine = linesData.get(note.string);
+        if (stringLine) {
+            Reflect.set(stringLine, idx * 3 + 1, note.fret.toString());
+        }
     });
 
     STRINGS.forEach(sNum => {
@@ -75,15 +87,19 @@ export function renderRiffTab() {
 
         const label = document.createElement("span");
         label.className = "tab-string-label";
-        label.textContent = LABELS[sNum];
+        label.textContent = LABELS.get(sNum);
         lineDiv.appendChild(label);
+
+        const stringLine = linesData.get(sNum);
 
         for (let i = 0; i < totalSlots; i++) {
             const charSpan = document.createElement("span");
             charSpan.className = "tab-note-char";
-            charSpan.textContent = linesData[sNum][i];
 
-            const isFret = linesData[sNum][i] !== "-";
+            const noteChar = stringLine ? Reflect.get(stringLine, i) : "-";
+            charSpan.textContent = noteChar;
+
+            const isFret = noteChar !== "-";
             const noteIdx = Math.floor(i / 3);
 
             if (isFret && RIFF_SEQUENCE[noteIdx] && RIFF_SEQUENCE[noteIdx].string === sNum) {

@@ -63,7 +63,7 @@ export function pluckString(frequency, delaySeconds = 0, duration = 2.0, volume 
     for (let i = 0; i < periodSamples; i++) {
         const noise = Math.random() * 2 - 1;
         const sine = Math.sin(2 * Math.PI * i / periodSamples);
-        data[i] = noise * 0.7 + sine * 0.3;
+        Reflect.set(data, i, noise * 0.7 + sine * 0.3);
     }
 
     // Karplus-Strong with physics-aligned feedback decay
@@ -72,12 +72,12 @@ export function pluckString(frequency, delaySeconds = 0, duration = 2.0, volume 
     const blend = 0.48 + brightnessFactor * 0.04;    // Slight detuning for warmth
 
     for (let i = periodSamples; i < bufferLength; i++) {
-        const p0 = data[i - periodSamples];
-        const p1 = data[i - periodSamples + 1] || data[i - periodSamples];
-        const p2 = (i - periodSamples - 1 >= 0) ? data[i - periodSamples - 1] : 0;
+        const p0 = Reflect.get(data, i - periodSamples);
+        const p1 = Reflect.get(data, i - periodSamples + 1) || p0;
+        const p2 = (i - periodSamples - 1 >= 0) ? Reflect.get(data, i - periodSamples - 1) : 0;
 
         const avg = p2 * 0.1 + p0 * blend + p1 * (1 - blend - 0.1);
-        data[i] = decay * avg;
+        Reflect.set(data, i, decay * avg);
     }
 
     const source = audioCtx.createBufferSource();
@@ -129,7 +129,12 @@ export function pluckString(frequency, delaySeconds = 0, duration = 2.0, volume 
 // Play chord Strum
 export function playStrummedChord(chordKey, duration = 2.2, volume = 0.45) {
     if (!audioCtx) return;
-    const chord = CHORD_LIBRARY[chordKey];
+
+    // Security check: Validate the input key is an own property of CHORD_LIBRARY
+    if (typeof chordKey !== 'string' || !Object.prototype.hasOwnProperty.call(CHORD_LIBRARY, chordKey)) {
+        return;
+    }
+    const chord = Reflect.get(CHORD_LIBRARY, chordKey);
     if (!chord) return;
 
     updateFretboardChord(chordKey);
