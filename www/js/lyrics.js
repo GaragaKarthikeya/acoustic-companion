@@ -234,9 +234,10 @@ export function renderPracticeBoard() {
                     if (group.c) {
                         const chordKey = group.c.toLowerCase();
                         const tooltipSVG = buildChordSVG(chordKey);
+                        const groupBar = group.bar !== undefined ? group.bar : lyr.bar;
 
                         groupSpan.innerHTML = `
-                            <span class="chord-badge" id="badge-pract-${sect.section}-${lyr.bar}" data-chord="${chordKey}">${group.c}</span>
+                            <span class="chord-badge" id="badge-pract-${sect.section}-${groupBar}" data-chord="${chordKey}">${group.c}</span>
                             <span class="lyric-text">${group.t}</span>
                             <div class="chord-tooltip">
                                 <div class="tooltip-title">${group.c} Chord</div>

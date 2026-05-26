@@ -127,12 +127,12 @@ export const SONG_STRUCTURE = [
         { bar: 12, chord: "g", style: "Palm Muted" },
         { bar: 14, chord: "f", style: "Palm Muted" }
     ], lyrics: [
-        { bar: 0, line: [ { c: "C", t: "Lovin' can hurt" } ] },
-        { bar: 2, line: [ { c: "", t: "Lovin' can hurt " }, { c: "Am", t: "sometimes" } ] },
-        { bar: 4, line: [ { c: "G", t: "But it's the only thing that I " }, { c: "F", t: "know" } ] },
-        { bar: 8, line: [ { c: "C", t: "And when it gets hard" } ] },
-        { bar: 10, line: [ { c: "", t: "You know it can get hard " }, { c: "Am", t: "sometimes" } ] },
-        { bar: 12, line: [ { c: "G", t: "It is the only thing that makes us feel " }, { c: "F", t: "alive" } ] }
+        { bar: 0, line: [ { c: "C", t: "Lovin' can hurt", bar: 0 } ] },
+        { bar: 2, line: [ { c: "", t: "Lovin' can hurt " }, { c: "Am", t: "sometimes", bar: 2 } ] },
+        { bar: 4, line: [ { c: "G", t: "But it's the only thing that I ", bar: 4 }, { c: "F", t: "know", bar: 6 } ] },
+        { bar: 8, line: [ { c: "C", t: "And when it gets hard", bar: 8 } ] },
+        { bar: 10, line: [ { c: "", t: "You know it can get hard " }, { c: "Am", t: "sometimes", bar: 10 } ] },
+        { bar: 12, line: [ { c: "G", t: "It is the only thing that makes us feel ", bar: 12 }, { c: "F", t: "alive", bar: 14 } ] }
     ]},
 
     // 3. PRE-CHORUS 1
@@ -146,10 +146,10 @@ export const SONG_STRUCTURE = [
         { bar: 6, chord: "c", style: "Open Build" },
         { bar: 7, chord: "g", style: "Open Build" }
     ], lyrics: [
-        { bar: 0, line: [ { c: "Am", t: "We keep this love in a " }, { c: "F", t: "photograph" } ] },
-        { bar: 2, line: [ { c: "C", t: "We made these memories " }, { c: "G", t: "for ourselves" } ] },
-        { bar: 4, line: [ { c: "Am", t: "Where our eyes are never closin', " }, { c: "F", t: "Hearts are never broken" } ] },
-        { bar: 6, line: [ { c: "C", t: "And time's forever " }, { c: "G", t: "frozen still" } ] }
+        { bar: 0, line: [ { c: "Am", t: "We keep this love in a ", bar: 0 }, { c: "F", t: "photograph", bar: 1 } ] },
+        { bar: 2, line: [ { c: "C", t: "We made these memories ", bar: 2 }, { c: "G", t: "for ourselves", bar: 3 } ] },
+        { bar: 4, line: [ { c: "Am", t: "Where our eyes are never closin', ", bar: 4 }, { c: "F", t: "Hearts are never broken", bar: 5 } ] },
+        { bar: 6, line: [ { c: "C", t: "And time's forever ", bar: 6 }, { c: "G", t: "frozen still", bar: 7 } ] }
     ]},
 
     // 4. CHORUS 1
@@ -163,11 +163,11 @@ export const SONG_STRUCTURE = [
         { bar: 12, chord: "am", style: "Open Strum" },
         { bar: 14, chord: "f", style: "Open Strum" }
     ], lyrics: [
-        { bar: 0, line: [ { c: "C", t: "So you can keep me" } ] },
-        { bar: 2, line: [ { c: "G", t: "Inside the pocket of your ripped jeans" } ] },
-        { bar: 4, line: [ { c: "Am", t: "Holdin' me closer 'til " }, { c: "F", t: "our eyes meet" } ] },
-        { bar: 8, line: [ { c: "C", t: "You won't ever " }, { c: "G", t: "be alone" } ] },
-        { bar: 12, line: [ { c: "Am", t: "Wait for me to " }, { c: "F", t: "come home" } ] }
+        { bar: 0, line: [ { c: "C", t: "So you can keep me", bar: 0 } ] },
+        { bar: 2, line: [ { c: "G", t: "Inside the pocket of your ripped jeans", bar: 2 } ] },
+        { bar: 4, line: [ { c: "Am", t: "Holdin' me closer 'til ", bar: 4 }, { c: "F", t: "our eyes meet", bar: 6 } ] },
+        { bar: 8, line: [ { c: "C", t: "You won't ever ", bar: 8 }, { c: "G", t: "be alone", bar: 10 } ] },
+        { bar: 12, line: [ { c: "Am", t: "Wait for me to ", bar: 12 }, { c: "F", t: "come home", bar: 14 } ] }
     ]},
 
     // 5. VERSE 2
@@ -181,12 +181,12 @@ export const SONG_STRUCTURE = [
         { bar: 12, chord: "g", style: "Palm Muted" },
         { bar: 14, chord: "f", style: "Palm Muted" }
     ], lyrics: [
-        { bar: 0, line: [ { c: "C", t: "Lovin' can heal" } ] },
-        { bar: 2, line: [ { c: "Am", t: "Lovin' can mend your soul" } ] },
-        { bar: 4, line: [ { c: "G", t: "And it's the only thing that I " }, { c: "F", t: "know, know" } ] },
-        { bar: 8, line: [ { c: "C", t: "I swear it will get easier" } ] },
-        { bar: 10, line: [ { c: "", t: "Remember that with " }, { c: "Am", t: "every piece of ya" } ] },
-        { bar: 12, line: [ { c: "G", t: "Mm, and it's the only thing we take with us " }, { c: "F", t: "when we die" } ] }
+        { bar: 0, line: [ { c: "C", t: "Lovin' can heal", bar: 0 } ] },
+        { bar: 2, line: [ { c: "Am", t: "Lovin' can mend your soul", bar: 2 } ] },
+        { bar: 4, line: [ { c: "G", t: "And it's the only thing that I ", bar: 4 }, { c: "F", t: "know, know", bar: 6 } ] },
+        { bar: 8, line: [ { c: "C", t: "I swear it will get easier", bar: 8 } ] },
+        { bar: 10, line: [ { c: "", t: "Remember that with " }, { c: "Am", t: "every piece of ya", bar: 10 } ] },
+        { bar: 12, line: [ { c: "G", t: "Mm, and it's the only thing we take with us ", bar: 12 }, { c: "F", t: "when we die", bar: 14 } ] }
     ]},
 
     // 6. PRE-CHORUS 2
@@ -200,10 +200,10 @@ export const SONG_STRUCTURE = [
         { bar: 6, chord: "c", style: "Open Build" },
         { bar: 7, chord: "g", style: "Open Build" }
     ], lyrics: [
-        { bar: 0, line: [ { c: "Am", t: "Mm, we keep this love in this " }, { c: "F", t: "photograph" } ] },
-        { bar: 2, line: [ { c: "C", t: "We made these memories " }, { c: "G", t: "for ourselves" } ] },
-        { bar: 4, line: [ { c: "Am", t: "Where our eyes are never closin', " }, { c: "F", t: "Hearts were never broken" } ] },
-        { bar: 6, line: [ { c: "C", t: "And time's forever " }, { c: "G", t: "frozen still" } ] }
+        { bar: 0, line: [ { c: "Am", t: "Mm, we keep this love in this ", bar: 0 }, { c: "F", t: "photograph", bar: 1 } ] },
+        { bar: 2, line: [ { c: "C", t: "We made these memories ", bar: 2 }, { c: "G", t: "for ourselves", bar: 3 } ] },
+        { bar: 4, line: [ { c: "Am", t: "Where our eyes are never closin', ", bar: 4 }, { c: "F", t: "Hearts were never broken", bar: 5 } ] },
+        { bar: 6, line: [ { c: "C", t: "And time's forever ", bar: 6 }, { c: "G", t: "frozen still", bar: 7 } ] }
     ]},
 
     // 7. CHORUS 2
@@ -221,14 +221,14 @@ export const SONG_STRUCTURE = [
         { bar: 20, chord: "am", style: "Open Strum" },
         { bar: 22, chord: "f", style: "Open Strum" }
     ], lyrics: [
-        { bar: 0, line: [ { c: "C", t: "So you can keep me" } ] },
-        { bar: 2, line: [ { c: "G", t: "Inside the pocket of your ripped jeans" } ] },
-        { bar: 4, line: [ { c: "Am", t: "Holdin' me closer 'til " }, { c: "F", t: "our eyes meet" } ] },
-        { bar: 8, line: [ { c: "C", t: "You won't ever " }, { c: "G", t: "be alone" } ] },
-        { bar: 10, line: [ { c: "Am", t: "And if you hurt me, well " }, { c: "F", t: "that's okay baby" } ] },
-        { bar: 12, line: [ { c: "C", t: "Only words bleed, inside " }, { c: "G", t: "these pages" } ] },
-        { bar: 16, line: [ { c: "Am", t: "You just hold me, and I won't " }, { c: "F", t: "ever let you go" } ] },
-        { bar: 20, line: [ { c: "C", t: "Wait for me to " }, { c: "G", t: "come home" } ] }
+        { bar: 0, line: [ { c: "C", t: "So you can keep me", bar: 0 } ] },
+        { bar: 2, line: [ { c: "G", t: "Inside the pocket of your ripped jeans", bar: 2 } ] },
+        { bar: 4, line: [ { c: "Am", t: "Holdin' me closer 'til ", bar: 4 }, { c: "F", t: "our eyes meet", bar: 6 } ] },
+        { bar: 8, line: [ { c: "C", t: "You won't ever ", bar: 8 }, { c: "G", t: "be alone", bar: 10 } ] },
+        { bar: 12, line: [ { c: "Am", t: "And if you hurt me, well ", bar: 12 }, { c: "F", t: "that's okay baby", bar: 14 } ] },
+        { bar: 16, line: [ { c: "C", t: "Only words bleed, inside ", bar: 16 }, { c: "G", t: "these pages", bar: 18 } ] },
+        { bar: 20, line: [ { c: "Am", t: "You just hold me, and I won't ", bar: 20 }, { c: "F", t: "ever let you go", bar: 22 } ] },
+        { bar: 20, line: [ { c: "Am", t: "Wait for me to ", bar: 20 }, { c: "F", t: "come home", bar: 22 } ] }
     ]},
 
     // 8. BRIDGE
@@ -238,12 +238,12 @@ export const SONG_STRUCTURE = [
         { bar: 4, chord: "c", style: "Palm Muted" },
         { bar: 6, chord: "g", style: "Open Build" }
     ], lyrics: [
-        { bar: 0, line: [ { c: "Am", t: "Wait for me to come " }, { c: "F", t: "home" } ] },
-        { bar: 4, line: [ { c: "C", t: "Wait for me to come " }, { c: "G", t: "home [Build Up!]" } ] }
+        { bar: 0, line: [ { c: "Am", t: "Wait for me to come ", bar: 0 }, { c: "F", t: "home", bar: 2 } ] },
+        { bar: 4, line: [ { c: "C", t: "Wait for me to come ", bar: 4 }, { c: "G", t: "home [Build Up!]", bar: 6 } ] }
     ]},
 
     // 9. CHORUS 3
-    { section: "chorus3", label: "Chorus 3", barCount: 16, chords: [
+    { section: "chorus3", label: "Chorus 3", barCount: 24, chords: [
         { bar: 0, chord: "c", style: "Open Strum" },
         { bar: 2, chord: "g", style: "Open Strum" },
         { bar: 4, chord: "am", style: "Open Strum" },
@@ -251,30 +251,38 @@ export const SONG_STRUCTURE = [
         { bar: 8, chord: "c", style: "Open Strum" },
         { bar: 10, chord: "g", style: "Open Strum" },
         { bar: 12, chord: "am", style: "Open Strum" },
-        { bar: 14, chord: "f", style: "Open Strum" }
+        { bar: 14, chord: "f", style: "Open Strum" },
+        { bar: 16, chord: "c", style: "Open Strum" },
+        { bar: 18, chord: "g", style: "Open Strum" },
+        { bar: 20, chord: "am", style: "Open Strum" },
+        { bar: 22, chord: "f", style: "Open Strum" }
     ], lyrics: [
-        { bar: 0, line: [ { c: "C", t: "Oh, you can fit me" } ] },
-        { bar: 2, line: [ { c: "G", t: "Inside that necklace you got when you were sixteen" } ] },
-        { bar: 4, line: [ { c: "Am", t: "Next to your heartbeat, where " }, { c: "F", t: "I should be" } ] },
-        { bar: 8, line: [ { c: "C", t: "Keep it deep within " }, { c: "G", t: "your soul" } ] },
-        { bar: 10, line: [ { c: "Am", t: "And if you hurt me, well " }, { c: "F", t: "that's okay baby" } ] },
-        { bar: 12, line: [ { c: "C", t: "Only words bleed, inside " }, { c: "G", t: "these pages" } ] },
-        { bar: 14, line: [ { c: "Am", t: "You just hold me, and I won't " }, { c: "F", t: "ever let you go" } ] }
+        { bar: 0, line: [ { c: "C", t: "Oh, you can fit me", bar: 0 } ] },
+        { bar: 2, line: [ { c: "G", t: "Inside that necklace you got when you were sixteen", bar: 2 } ] },
+        { bar: 4, line: [ { c: "Am", t: "Next to your heartbeat, where ", bar: 4 }, { c: "F", t: "I should be", bar: 6 } ] },
+        { bar: 8, line: [ { c: "C", t: "Keep it deep within ", bar: 8 }, { c: "G", t: "your soul", bar: 10 } ] },
+        { bar: 12, line: [ { c: "Am", t: "And if you hurt me, well ", bar: 12 }, { c: "F", t: "that's okay baby", bar: 14 } ] },
+        { bar: 16, line: [ { c: "C", t: "Only words bleed, inside ", bar: 16 }, { c: "G", t: "these pages", bar: 18 } ] },
+        { bar: 20, line: [ { c: "Am", t: "You just hold me, and I won't ", bar: 20 }, { c: "F", t: "ever let you go", bar: 22 } ] }
     ]},
 
     // 10. OUTRO
     { section: "outro", label: "Outro", barCount: 10, chords: [
         { bar: 0, chord: "c", style: "Palm Muted" },
-        { bar: 2, chord: "am", style: "Palm Muted" },
-        { bar: 4, chord: "g", style: "Palm Muted" },
-        { bar: 6, chord: "f", style: "Palm Muted" },
+        { bar: 1, chord: "am", style: "Palm Muted" },
+        { bar: 2, chord: "g", style: "Palm Muted" },
+        { bar: 3, chord: "f", style: "Palm Muted" },
+        { bar: 4, chord: "c", style: "Palm Muted" },
+        { bar: 5, chord: "am", style: "Palm Muted" },
+        { bar: 6, chord: "g", style: "Palm Muted" },
+        { bar: 7, chord: "f", style: "Palm Muted" },
         { bar: 8, chord: "c", style: "Palm Muted" }
     ], lyrics: [
-        { bar: 0, line: [ { c: "C", t: "When I'm away, I will remember how you " }, { c: "Am", t: "kissed me" } ] },
-        { bar: 2, line: [ { c: "G", t: "Under the lamppost back on " }, { c: "F", t: "Sixth Street" } ] },
-        { bar: 4, line: [ { c: "C", t: "Hearin' you whisper through the " }, { c: "Am", t: "phone" } ] },
-        { bar: 6, line: [ { c: "G", t: "\"Wait for me to come " }, { c: "F", t: "home\"" } ] },
-        { bar: 8, line: [ { c: "C", t: "[Hold C string ring to finish]" } ] }
+        { bar: 0, line: [ { c: "C", t: "When I'm away, I will remember how you ", bar: 0 }, { c: "Am", t: "kissed me", bar: 1 } ] },
+        { bar: 2, line: [ { c: "G", t: "Under the lamppost back on ", bar: 2 }, { c: "F", t: "Sixth Street", bar: 3 } ] },
+        { bar: 4, line: [ { c: "C", t: "Hearin' you whisper through the ", bar: 4 }, { c: "Am", t: "phone", bar: 5 } ] },
+        { bar: 6, line: [ { c: "G", t: "\"Wait for me to come ", bar: 6 }, { c: "F", t: "home\"", bar: 7 } ] },
+        { bar: 8, line: [ { c: "C", t: "[Hold C string ring to finish]", bar: 8 } ] }
     ]}
 ];
 
@@ -301,8 +309,17 @@ export function compilePracticeMap() {
 
             let lineId = "";
             if (sect.lyrics) {
-                const lyr = sect.lyrics.find(l => l.bar === b);
-                if (lyr) lineId = `line-${sect.section}-${b}`;
+                let activeLyr = null;
+                for (let i = 0; i < sect.lyrics.length; i++) {
+                    if (sect.lyrics[i].bar <= b) {
+                        activeLyr = sect.lyrics[i];
+                    } else {
+                        break;
+                    }
+                }
+                if (activeLyr) {
+                    lineId = `line-${sect.section}-${activeLyr.bar}`;
+                }
             } else if (b === 0 && sect.text) {
                 lineId = `line-${sect.section}-instr`;
             }
